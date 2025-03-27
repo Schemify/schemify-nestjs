@@ -1,8 +1,8 @@
 ---
 name: Tarea General
 about: Plantilla para tareas generales no clasificadas como bugs o características.
-title: "[Task]"
-labels: ""
+title: '[Task]'
+labels: ''
 assignees: ''
 ---
 

@@ -1,8 +1,8 @@
 ---
 name: Plantilla de Pull Request
 about: Plantilla para la creación de una pull request.
-title: "[PR]"
-labels: "pull-request"
+title: '[PR]'
+labels: 'pull-request'
 assignees: ''
 ---
 

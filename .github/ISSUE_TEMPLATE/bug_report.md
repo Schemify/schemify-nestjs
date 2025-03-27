@@ -1,8 +1,8 @@
 ---
 name: Reporte de Bug
 about: Plantilla para reportar un bug encontrado.
-title: "[BUG]"
-labels: ""
+title: '[BUG]'
+labels: ''
 assignees: ''
 ---
 

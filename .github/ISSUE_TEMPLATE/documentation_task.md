@@ -1,8 +1,8 @@
 ---
 name: Tarea de Documentación
 about: Plantilla para tareas relacionadas con la creación o actualización de documentación.
-title: "[Documentación]"
-labels: ""
+title: '[Documentación]'
+labels: ''
 assignees: ''
 ---
 

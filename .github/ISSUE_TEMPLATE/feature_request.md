@@ -1,8 +1,8 @@
 ---
 name: Solicitud de Funcionalidad
 about: Plantilla para solicitar nuevas funcionalidades o mejoras.
-title: "[Feature Request]"
-labels: ""
+title: '[Feature Request]'
+labels: ''
 assignees: ''
 ---
 

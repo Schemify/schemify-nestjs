@@ -1,8 +1,8 @@
 ---
 name: Historia de Usuario
 about: Plantilla para registrar una historia de usuario.
-title: ""
-labels: ""
+title: ''
+labels: ''
 assignees: ''
 ---
 
