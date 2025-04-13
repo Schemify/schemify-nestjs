@@ -48,3 +48,13 @@ src/
 │       └── helpers.ts
 │
 └── app.module.ts               # Módulo principal de la aplicación
+
+
+npx protoc --plugin=./node_modules/.bin/protoc-gen-ts_proto.cmd --ts_proto_out=./ --ts_proto_opt=nestJs=true ./proto/example.proto
+Mover archivo resultante a libs/common/src/types
+
+"compilerOptions": {
+        "tsConfigPath": "apps/schemify-nestjs/tsconfig.app.json",
+        "assets": ["proto/*.proto"],
+        "watchAssets": true
+      }
