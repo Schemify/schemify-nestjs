@@ -4,7 +4,7 @@ import { AppModule } from './app.module'
 import { join } from 'path'
 import { Logger } from '@nestjs/common'
 import { EXAMPLE } from '@app/common' // Ajusta según tu paquete protobuf
-import { Partitioners } from 'kafkajs'
+// import { Partitioners } from 'kafkajs'
 
 async function bootstrap() {
   const logger = new Logger('MicroserviceBootstrap')
@@ -33,23 +33,23 @@ async function bootstrap() {
   // =========================================================================
   // 3. Configurar Kafka (para consumir mensajes asíncronos)
   // =========================================================================
-  app.connectMicroservice<MicroserviceOptions>({
-    transport: Transport.KAFKA,
+  // app.connectMicroservice<MicroserviceOptions>({
+  //   transport: Transport.KAFKA,
 
-    options: {
-      client: {
-        brokers: ['kafka1:9092', 'kafka2:9092'],
-        clientId: 'example-schemify-nestjs'
-      },
-      producer: {
-        createPartitioner: Partitioners.LegacyPartitioner,
-        allowAutoTopicCreation: true
-      },
-      consumer: {
-        groupId: 'example-group'
-      }
-    }
-  })
+  //   options: {
+  //     client: {
+  //       brokers: ['kafka1:9092', 'kafka2:9092'],
+  //       clientId: 'example-schemify-nestjs'
+  //     },
+  //     producer: {
+  //       createPartitioner: Partitioners.LegacyPartitioner,
+  //       allowAutoTopicCreation: true
+  //     },
+  //     consumer: {
+  //       groupId: 'example-group'
+  //     }
+  //   }
+  // })
   // =========================================================================
   // 4. Iniciar los microservicios
   // =========================================================================
