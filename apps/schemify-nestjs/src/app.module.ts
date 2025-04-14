@@ -3,7 +3,6 @@ import { ExampleModule } from './example/example.module'
 
 @Module({
   imports: [ExampleModule],
-
   controllers: [],
   providers: []
 })
