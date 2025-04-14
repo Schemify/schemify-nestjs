@@ -21,7 +21,7 @@ import { ClientKafkaProxy } from '@nestjs/microservices'
 @Injectable()
 export class ExampleService implements OnModuleInit {
   constructor(
-    @Inject('EXAMPLE_KAFKA_CLIEN') private kafkaClient: ClientKafkaProxy
+    @Inject('EXAMPLE_KAFKA_CLIENT') private kafkaClient: ClientKafkaProxy
   ) {}
 
   private readonly examples: Example[] = []
