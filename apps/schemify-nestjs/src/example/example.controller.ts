@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @darraghor/nestjs-typed/controllers-should-supply-api-tags */
 
 import { Controller } from '@nestjs/common'
@@ -14,11 +13,18 @@ import {
   ExampleServiceControllerMethods
 } from '@app/common'
 import { Observable } from 'rxjs'
+import { EventPattern, Payload } from '@nestjs/microservices'
 
 @Controller()
 @ExampleServiceControllerMethods()
 export class ExampleController implements ExampleServiceController {
   constructor(private readonly exampleService: ExampleService) {}
+
+  @EventPattern('example.created')
+  // eslint-disable-next-line @typescript-eslint/require-await
+  async handleExampleCreated(@Payload() example) {
+    console.log('Example created:', example)
+  }
 
   createExample(createExampleDto: CreateExampleDto) {
     return this.exampleService.createExample(createExampleDto)

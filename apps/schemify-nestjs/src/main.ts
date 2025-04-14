@@ -33,23 +33,21 @@ async function bootstrap() {
   // =========================================================================
   // 3. Configurar Kafka (para consumir mensajes asíncronos)
   // =========================================================================
-  // app.connectMicroservice<MicroserviceOptions>({
-  //   transport: Transport.KAFKA,
+  app.connectMicroservice<MicroserviceOptions>({
+    transport: Transport.KAFKA,
 
-  //   options: {
-  //     client: {
-  //       brokers: ['kafka1:9092', 'kafka2:9092'],
-  //       clientId: 'example-schemify-nestjs'
-  //     },
-  //     producer: {
-  //       createPartitioner: Partitioners.LegacyPartitioner,
-  //       allowAutoTopicCreation: true
-  //     },
-  //     consumer: {
-  //       groupId: 'example-group'
-  //     }
-  //   }
-  // })
+    options: {
+      client: {
+        clientId: 'example-service',
+        brokers: ['kafka1:9092', 'kafka2:9092']
+      },
+
+      consumer: {
+        groupId: 'example-consumer'
+      }
+    }
+  })
+
   // =========================================================================
   // 4. Iniciar los microservicios
   // =========================================================================
