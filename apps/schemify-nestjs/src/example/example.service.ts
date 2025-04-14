@@ -1,8 +1,8 @@
 import {
   Injectable,
   NotFoundException,
-  OnModuleInit,
-  Inject
+  OnModuleInit
+  // Inject
 } from '@nestjs/common'
 // import { CreateExampleDto } from './dto/create-example.dto'
 // import { UpdateExampleDto } from './dto/update-example.dto'
@@ -16,30 +16,24 @@ import {
 } from '@app/common'
 import { randomUUID } from 'crypto'
 import { Observable, Subject } from 'rxjs'
-import { ClientKafkaProxy } from '@nestjs/microservices'
+// import { ClientKafkaProxy } from '@nestjs/microservices'
 
 @Injectable()
 export class ExampleService implements OnModuleInit {
-  constructor(
-    @Inject('EXAMPLE_KAFKA_CLIENT') private kafkaClient: ClientKafkaProxy
-  ) {}
+  // constructor(
+  //   @Inject('EXAMPLE_KAFKA_CLIENT') private kafkaClient: ClientKafkaProxy
+  // ) {}
 
   private readonly examples: Example[] = []
 
   // * Probar agreando nuevos ejemplos
   onModuleInit() {
-    for (let i = 0; i < 100; i++) {
-      const example: Example = {
-        id: randomUUID(),
-        name: `Example ${i}`,
-        description: `Description ${i}`
-      }
-
-      this.examples.push(example)
+    for (let i = 0; i <= 100; i++) {
+      this.createExample({ name: `Example ${i}` })
     }
 
     // Suscribimos a los eventos de Kafka
-    this.kafkaClient.subscribeToResponseOf('example.time')
+    // this.kafkaClient.subscribeToResponseOf('example.time')
   }
 
   createExample(createExampleDto: CreateExampleDto): Example {
@@ -48,23 +42,25 @@ export class ExampleService implements OnModuleInit {
       id: randomUUID()
     }
 
+    console.log('Example created:', example)
+
     this.examples.push(example)
 
     // Mesage to Kafka: value, key, headers
     // Cuando necesitemos hacer atomicidad, debemos asegurarnos de utilizar el mismo partition
     // Para garantizar esto simplemnte debemos especificar la key
-    this.kafkaClient.emit('example.created', { key: example.id }) // request-reply
+    // this.kafkaClient.emit('example.created', { key: example.id }) // request-reply
 
     return example
   }
 
-  // eslint-disable-next-line @typescript-eslint/require-await
-  async getExampleTime() {
-    // Utilizamos send para hacer un request-reply
-    return this.kafkaClient.send('example.time', { id: 1 })
-  }
+  // async getExampleTime() {
+  //   // Utilizamos send para hacer un request-reply
+  //   return this.kafkaClient.send('example.time', { id: 1 })
+  // }
 
   getAllExamples() {
+    console.log(this.examples)
     return { examples: this.examples }
   }
 

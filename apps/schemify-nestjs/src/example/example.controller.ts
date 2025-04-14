@@ -39,9 +39,9 @@ export class ExampleController implements ExampleServiceController {
     console.log(`headers: ${originalKafkaMessage.headers}`)
   }
 
-  async geExampleTime() {
-    return this.exampleService.getExampleTime()
-  }
+  // async geExampleTime() {
+  //   return this.exampleService.getExampleTime()
+  // }
 
   createExample(createExampleDto: CreateExampleDto) {
     return this.exampleService.createExample(createExampleDto)

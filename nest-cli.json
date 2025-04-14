@@ -11,6 +11,28 @@
   "monorepo": true,
   "root": "apps/schemify-nestjs",
   "projects": {
+    "api-gateway": {
+      "type": "application",
+      "root": "apps/api-gateway",
+      "entryFile": "src/main",
+      "sourceRoot": "./",
+      "compilerOptions": {
+        "tsConfigPath": "apps/api-gateway/tsconfig.app.json",
+        "assets": ["proto/*.proto"],
+        "watchAssets": true
+      }
+    },
+    "schemify-nestjs": {
+      "type": "application",
+      "root": "apps/schemify-nestjs",
+      "entryFile": "src/main",
+      "sourceRoot": "./",
+      "compilerOptions": {
+        "tsConfigPath": "apps/schemify-nestjs/tsconfig.app.json",
+        "assets": ["proto/*.proto"],
+        "watchAssets": true
+      }
+    },
     "common": {
       "type": "library",
       "root": "libs/common",
@@ -29,17 +51,6 @@
       "sourceRoot": "apps/microservice-example/src",
       "compilerOptions": {
         "tsConfigPath": "apps/microservice-example/tsconfig.app.json"
-      }
-    },
-    "schemify-nestjs": {
-      "type": "application",
-      "root": "apps/schemify-nestjs",
-      "entryFile": "src/main",
-      "sourceRoot": "./",
-      "compilerOptions": {
-        "tsConfigPath": "apps/schemify-nestjs/tsconfig.app.json",
-        "assets": ["proto/*.proto"],
-        "watchAssets": true
       }
     }
   }
