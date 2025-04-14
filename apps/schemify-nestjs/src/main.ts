@@ -21,7 +21,7 @@ async function bootstrap() {
     transport: Transport.GRPC,
     options: {
       package: EXAMPLE, // Nombre del paquete en tu .proto
-      protoPath: join(__dirname, '../example.proto'), // Ruta al archivo proto
+      protoPath: join(__dirname, './proto/example.proto'), // Ruta al archivo proto
       url: '0.0.0.0:50051', // Puerto gRPC (ajusta según tu necesidad)
       loader: {
         keepCase: true, // Mantener nombres de campos en camelCase
