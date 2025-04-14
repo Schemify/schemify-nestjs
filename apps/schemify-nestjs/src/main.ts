@@ -35,6 +35,7 @@ async function bootstrap() {
   // =========================================================================
   app.connectMicroservice<MicroserviceOptions>({
     transport: Transport.KAFKA,
+
     options: {
       client: {
         brokers: ['kafka1:9092', 'kafka2:9092'],
