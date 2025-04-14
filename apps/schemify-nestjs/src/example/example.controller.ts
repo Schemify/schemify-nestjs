@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-base-to-string */
+/* eslint-disable @typescript-eslint/restrict-template-expressions */
 /* eslint-disable @darraghor/nestjs-typed/controllers-should-supply-api-tags */
 
 import { Controller } from '@nestjs/common'
@@ -13,7 +15,7 @@ import {
   ExampleServiceControllerMethods
 } from '@app/common'
 import { Observable } from 'rxjs'
-import { EventPattern, Payload } from '@nestjs/microservices'
+import { Ctx, EventPattern, KafkaContext, Payload } from '@nestjs/microservices'
 
 @Controller()
 @ExampleServiceControllerMethods()
@@ -22,8 +24,22 @@ export class ExampleController implements ExampleServiceController {
 
   @EventPattern('example.created')
   // eslint-disable-next-line @typescript-eslint/require-await
-  async handleExampleCreated(@Payload() example) {
+  async handleExampleCreated(@Payload() example, @Ctx() context: KafkaContext) {
     console.log('Example created:', example)
+
+    const originalKafkaMessage = context.getMessage()
+
+    console.log('Original Kafka message:', originalKafkaMessage)
+
+    console.log(`key: ${originalKafkaMessage.key}`)
+    console.log(`value: ${originalKafkaMessage.value}`)
+    console.log(`headers: ${originalKafkaMessage.timestamp}`)
+    console.log(`offset: ${originalKafkaMessage.offset}`)
+    console.log(`headers: ${originalKafkaMessage.headers}`)
+  }
+
+  async geExampleTime() {
+    return this.exampleService.getExampleTime()
   }
 
   createExample(createExampleDto: CreateExampleDto) {

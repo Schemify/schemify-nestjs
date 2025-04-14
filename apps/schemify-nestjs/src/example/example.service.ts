@@ -37,6 +37,9 @@ export class ExampleService implements OnModuleInit {
 
       this.examples.push(example)
     }
+
+    // Suscribimos a los eventos de Kafka
+    this.kafkaClient.subscribeToResponseOf('example.time')
   }
 
   createExample(createExampleDto: CreateExampleDto): Example {
@@ -48,9 +51,17 @@ export class ExampleService implements OnModuleInit {
     this.examples.push(example)
 
     // Mesage to Kafka: value, key, headers
-    this.kafkaClient.emit('example.created', example)
+    // Cuando necesitemos hacer atomicidad, debemos asegurarnos de utilizar el mismo partition
+    // Para garantizar esto simplemnte debemos especificar la key
+    this.kafkaClient.emit('example.created', { key: example.id }) // request-reply
 
     return example
+  }
+
+  // eslint-disable-next-line @typescript-eslint/require-await
+  async getExampleTime() {
+    // Utilizamos send para hacer un request-reply
+    return this.kafkaClient.send('example.time', { id: 1 })
   }
 
   getAllExamples() {

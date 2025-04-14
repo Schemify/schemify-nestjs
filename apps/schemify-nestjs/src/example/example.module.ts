@@ -17,7 +17,9 @@ import { ClientsModule, Transport } from '@nestjs/microservices'
           producer: {
             allowAutoTopicCreation: true
           },
-          producerOnlyMode: true
+          consumer: {
+            groupId: 'example-consumer'
+          }
         }
       }
     ])
