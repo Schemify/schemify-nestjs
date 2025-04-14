@@ -21,7 +21,7 @@ async function bootstrap() {
     transport: Transport.GRPC,
     options: {
       package: EXAMPLE, // Nombre del paquete en tu .proto
-      protoPath: join(__dirname, './proto/example.proto'), // Ruta al archivo proto
+      protoPath: join(__dirname, '../proto/example.proto'), // Ruta al archivo proto
       url: '0.0.0.0:50051', // Puerto gRPC (ajusta según tu necesidad)
       loader: {
         keepCase: true, // Mantener nombres de campos en camelCase
@@ -37,13 +37,15 @@ async function bootstrap() {
     transport: Transport.KAFKA,
     options: {
       client: {
-        brokers: ['kafka1:9092', 'kafka2:9092']
+        brokers: ['kafka1:9092', 'kafka2:9092'],
+        clientId: 'example-schemify-nestjs'
       },
       producer: {
-        createPartitioner: Partitioners.LegacyPartitioner // <-- Solución aquí
+        createPartitioner: Partitioners.LegacyPartitioner,
+        allowAutoTopicCreation: true
       },
       consumer: {
-        groupId: 'your-consumer-group'
+        groupId: 'example-group'
       }
     }
   })

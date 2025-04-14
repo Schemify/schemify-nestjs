@@ -1,6 +1,9 @@
-/* eslint-disable @darraghor/nestjs-typed/injectable-should-be-provided */
-
-import { Injectable, NotFoundException, OnModuleInit } from '@nestjs/common'
+import {
+  Injectable,
+  NotFoundException,
+  OnModuleInit,
+  Inject
+} from '@nestjs/common'
 // import { CreateExampleDto } from './dto/create-example.dto'
 // import { UpdateExampleDto } from './dto/update-example.dto'
 
@@ -13,9 +16,12 @@ import {
 } from '@app/common'
 import { randomUUID } from 'crypto'
 import { Observable, Subject } from 'rxjs'
+import { ClientKafkaProxy } from '@nestjs/microservices'
 
 @Injectable()
 export class ExampleService implements OnModuleInit {
+  constructor(@Inject('KAFKA_CLIENT') private kafkaClient: ClientKafkaProxy) {}
+
   private readonly examples: Example[] = []
 
   // * Probar agreando nuevos ejemplos
@@ -38,6 +44,9 @@ export class ExampleService implements OnModuleInit {
     }
 
     this.examples.push(example)
+
+    // Mesage to Kafka: value, key, headers
+    this.kafkaClient.emit('example.created', example)
 
     return example
   }
