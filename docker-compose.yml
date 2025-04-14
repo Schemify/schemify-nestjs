@@ -9,7 +9,7 @@ services:
       - postgres
       - mongo
     ports:
-      - '${APP_PORT}:3000'
+      - '${APP_PORT}:3010'
     environment:
       NODE_ENV: ${NODE_ENV}
       POSTGRES_URL: ${POSTGRES_URL}
@@ -19,6 +19,8 @@ services:
       - ./logs:/home/node/app/logs
     networks:
       - schemify-networks
+      - kafka-cluster_kafka-net
+      - nginxproxymanager_nginxproxymanager-app-1-network
 
   postgres:
     image: postgres:15
@@ -55,6 +57,10 @@ services:
 networks:
   schemify-networks:
     driver: bridge
+  kafka-cluster_kafka-net:
+    external: true
+  nginxproxymanager_nginxproxymanager-app-1-network:
+    external: true
 
 volumes:
   pgdata:

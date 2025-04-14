@@ -1,5 +1,5 @@
 # 🛠️ Build Stage (Construcción de la aplicación)
-FROM node:23-alpine-slim AS builder
+FROM node:23-alpine AS builder
 
 # Configuración del entorno
 ENV NODE_ENV build
@@ -26,7 +26,7 @@ RUN npm run build \
 # ------------------------------------------
 
 # 🏗️ Production Stage (Imagen optimizada para ejecución)
-FROM node:23-alpine-slim
+FROM node:23-alpine
 
 # Configuración del entorno
 ENV NODE_ENV production
@@ -43,11 +43,11 @@ COPY --from=builder --chown=node:node /home/node/app/dist/ ./dist/
 USER node
 
 # Puerto de la aplicación (esto es solo informativo)
-EXPOSE 3000
+EXPOSE 3010
 
 # Agregar healthcheck para que Docker monitoree el contenedor
 HEALTHCHECK --interval=30s --timeout=10s --start-period=10s \
-    CMD node -e "process.exit(require('http').request({method:'HEAD',host:'localhost',port:3000}, r => process.exit(r.statusCode === 200 ? 0 : 1)).on('error', () => process.exit(1)))"
+    CMD node -e "process.exit(require('http').request({method:'HEAD',host:'localhost',port:3010}, r => process.exit(r.statusCode === 200 ? 0 : 1)).on('error', () => process.exit(1)))"
 
 # Ejecutar la aplicación
 CMD ["node", "dist/main"]
