@@ -50,4 +50,4 @@ HEALTHCHECK --interval=30s --timeout=10s --start-period=10s \
     CMD node -e "process.exit(require('http').request({method:'HEAD',host:'localhost',port:3010}, r => process.exit(r.statusCode === 200 ? 0 : 1)).on('error', () => process.exit(1)))"
 
 # Ejecutar la aplicación
-CMD ["node", "dist/main"]
+CMD ["npm", "start:all"]

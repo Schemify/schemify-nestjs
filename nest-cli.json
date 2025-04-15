@@ -33,6 +33,17 @@
         "watchAssets": true
       }
     },
+    "schemify-nestjs-consumer": {
+      "type": "application",
+      "root": "apps/schemify-nestjs-consumer",
+      "entryFile": "src/main",
+      "sourceRoot": "./",
+      "compilerOptions": {
+        "tsConfigPath": "apps/schemify-nestjs-consumer/tsconfig.app.json",
+        "assets": ["proto/*.proto"],
+        "watchAssets": true
+      }
+    },
     "common": {
       "type": "library",
       "root": "libs/common",
