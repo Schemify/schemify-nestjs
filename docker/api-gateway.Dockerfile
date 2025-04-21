@@ -14,7 +14,12 @@ COPY --chown=node:node . .
 # Instalar dependencias y construir
 RUN npm ci && npm run build
 
+
 # 🏗️ Production Stage para API Gateway
+
+RUN cp proto/*.proto /home/node/app/dist/apps/schemify-nestjs/ 
+
+
 FROM node:23-alpine
 
 ENV NODE_ENV production
@@ -25,6 +30,7 @@ WORKDIR /home/node/app
 COPY --from=builder --chown=node:node /home/node/app/package*.json ./
 COPY --from=builder --chown=node:node /home/node/app/node_modules/ ./node_modules/
 COPY --from=builder --chown=node:node /home/node/app/dist/ ./dist/
+COPY --from=builder --chown=node:node /home/node/app/proto/*.proto ./dist/api-gateway/
 
 USER node
 

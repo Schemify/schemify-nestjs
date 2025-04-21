@@ -10,14 +10,17 @@ USER node
 
 # Copiar el código fuente
 COPY --chown=node:node . .
+# TODO: seleccionar el micrservicio especifico
 
 # Instalar dependencias y construir
 RUN npm ci && npm run build
 
-# Copiar archivos proto
-RUN mkdir -p dist/apps/schemify-nestjs-consumer && \
-    cp dist/apps/schemify-nestjs-consumer/*.proto dist/apps/schemify-nestjs-consumer/proto/
 
+# Copiar archivos proto
+# RUN mkdir -p dist/apps/schemify-nestjs-consumer && \
+#     cp dist/apps/schemify-nestjs-consumer/*.proto dist/apps/schemify-nestjs-consumer/proto/
+
+RUN cp proto/*.proto /home/node/app/dist/apps/schemify-nestjs/ 
 
 # 🏗️ Production Stage
 FROM node:23-alpine
@@ -30,7 +33,7 @@ WORKDIR /home/node/app
 COPY --from=builder --chown=node:node /home/node/app/package*.json ./
 COPY --from=builder --chown=node:node /home/node/app/node_modules/ ./node_modules/
 COPY --from=builder --chown=node:node /home/node/app/dist/ ./dist/
-COPY --from=builder --chown=node:node /home/node/app/proto/ ./proto/
+COPY --from=builder --chown=node:node /home/node/app/proto/*.proto ./dist/schemify-nestjs-consumer/
 
 USER node
 
