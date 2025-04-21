@@ -15,10 +15,9 @@ COPY --chown=node:node . .
 RUN npm ci && npm run build
 
 # Copiar archivos proto
+
 RUN mkdir -p dist/apps/schemify-nestjs/proto && \
-    cp apps/schemify-nestjs/*.proto dist/apps/schemify-nestjs/proto/ && \
-    mkdir -p dist/apps/api-gateway/proto && \
-    cp apps/api-gateway/*.proto dist/apps/api-gateway/proto/
+    cp dist/apps/schemify-nestjs/*.proto dist/apps/schemify-nestjs/proto/
 
 # 🏗️ Production Stage
 FROM node:23-alpine
