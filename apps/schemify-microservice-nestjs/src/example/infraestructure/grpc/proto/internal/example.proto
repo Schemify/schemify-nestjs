@@ -1,3 +1,5 @@
+// schemify-microservice-nestjs/src/example/infraestructure/grpc/proto/internal/example.proto
+
 syntax = "proto3";
 
 package example;

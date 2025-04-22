@@ -67,15 +67,6 @@
         "assets": ["proto/*.proto"],
         "watchAssets": true
       }
-    },
-    "microservice-example": {
-      "type": "application",
-      "root": "apps/microservice-example",
-      "entryFile": "main",
-      "sourceRoot": "apps/microservice-example/src",
-      "compilerOptions": {
-        "tsConfigPath": "apps/microservice-example/tsconfig.app.json"
-      }
     }
   }
 }
