@@ -1,0 +1,59 @@
+syntax = "proto3";
+
+package example;
+
+
+// Contratos de comunicación entre el cliente y el servidor
+// para la gestión de ejemplos en la aplicación.
+service ExampleService {
+  rpc CreateExample(CreateExampleDto) returns (Example) {}
+  rpc GetAllExamples(Empty) returns (Examples) {}
+  rpc GetExampleById(GetExampleByIdDto) returns (Example) {}
+  rpc UpdateExample(UpdateExampleDto) returns (Example) {}
+  rpc DeleteExample(GetExampleByIdDto) returns (Empty) {}
+
+  rpc QueryExamples(stream PaginationDto) returns (stream Examples) {}
+}
+
+message PaginationDto {
+    int32 page = 1;          
+    int32 skip = 2;      
+}
+
+// Mensajes utilizados en los contratos de comunicación
+
+// Mensaje vacío utilizado para las peticiones que no requieren datos adicionales.
+message Empty {}
+
+// Mensaje utilizado para crear un nuevo ejemplo.
+message CreateExampleDto {
+    string name = 1;
+    optional string description = 2;
+}
+
+// Mensaje utilizado para actualizar un ejemplo existente.
+message UpdateExampleDto {
+    string id = 1;
+    Example example = 2;
+}
+
+// Mensaje utilizado para obtener un ejemplo por su ID.
+message GetExampleByIdDto {
+    string id = 1;
+}
+
+
+// Mensaje utilizado para devolver un ejemplo.
+message Examples {
+    repeated Example examples = 1;
+}
+
+
+// Mensaje que representa un ejemplo en la aplicación.
+message Example {
+    string id = 1;            // Identificador único del ejemplo.                         
+    string name = 2;
+    optional string description = 3;
+}
+
+

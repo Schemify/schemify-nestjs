@@ -9,14 +9,9 @@ import { EXAMPLE_PACKAGE_NAME } from '@app/common' // Ajusta según tu paquete p
 async function bootstrap() {
   const logger = new Logger('MicroserviceBootstrap')
 
-  // =========================================================================
-  // 1. Crear la aplicación NestJS (sin HTTP por defecto)
-  // =========================================================================
   const app = await NestFactory.create(AppModule, { logger })
 
-  // =========================================================================
   // 2. Configurar el servidor gRPC (para llamadas síncronas)
-  // =========================================================================
   app.connectMicroservice<MicroserviceOptions>({
     transport: Transport.GRPC,
     options: {
@@ -43,16 +38,9 @@ async function bootstrap() {
   //   }
   // })
 
-  // =========================================================================
   // 4. Iniciar los microservicios
-  // =========================================================================
   await app.startAllMicroservices()
-
-  logger.log(
-    `✅ Microservicio iniciado:
-    - gRPC escuchando en 0.0.0.0:50051
-    - Kafka consumiendo de los brokers: kafka1:9092, kafka2:9092`
-  )
+  logger.log('Microservicio gRPC y Kafka iniciado')
 }
 
 // =============================================================================
