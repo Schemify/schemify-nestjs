@@ -1,10 +1,8 @@
 import { Module } from '@nestjs/common'
 import { ExampleModule } from './example/example.module'
 
-import { SharedConfigModule } from 'libs/config/config.module'
-
 @Module({
-  imports: [SharedConfigModule, ExampleModule],
+  imports: [ExampleModule],
   controllers: [],
   providers: []
 })

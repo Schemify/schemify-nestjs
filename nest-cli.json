@@ -11,6 +11,19 @@
   "monorepo": true,
   "root": "apps/schemify-nestjs",
   "projects": {
+    "schemify-microservice-nestjs": {
+      "type": "application",
+      "root": "apps/schemify-microservice-nestjs",
+      "entryFile": "src/main",
+      "sourceRoot": "./",
+      "compilerOptions": {
+        "tsConfigPath": "apps/schemify-microservice-nestjs/tsconfig.app.json",
+        "assets": [
+          "apps/schemify-microservice-nestjs/src/example/infraestructure/grpc/proto/internal/*.proto"
+        ],
+        "watchAssets": true
+      }
+    },
     "api-gateway": {
       "type": "application",
       "root": "apps/api-gateway",
