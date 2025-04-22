@@ -1,9 +1,6 @@
-// schemify-microservice-nestjs/src/example/infraestructure/grpc/proto/internal/example.proto
-
 syntax = "proto3";
 
 package example;
-
 
 // Contratos de comunicación entre el cliente y el servidor
 // para la gestión de ejemplos en la aplicación.
@@ -14,13 +11,13 @@ service ExampleService {
   rpc UpdateExample(UpdateExampleDto) returns (Example) {}
   rpc DeleteExample(GetExampleByIdDto) returns (Empty) {}
 
-  rpc QueryExamples(stream PaginationDto) returns (stream Examples) {}
+//   rpc QueryExamples(stream PaginationDto) returns (stream Examples) {}
 }
 
-message PaginationDto {
-    int32 page = 1;          
-    int32 skip = 2;      
-}
+// message PaginationDto {
+//     int32 page = 1;          
+//     int32 skip = 2;      
+// }
 
 // Mensajes utilizados en los contratos de comunicación
 
@@ -49,7 +46,6 @@ message GetExampleByIdDto {
 message Examples {
     repeated Example examples = 1;
 }
-
 
 // Mensaje que representa un ejemplo en la aplicación.
 message Example {

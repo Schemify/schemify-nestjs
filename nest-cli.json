@@ -18,9 +18,7 @@
       "sourceRoot": "./",
       "compilerOptions": {
         "tsConfigPath": "apps/schemify-microservice-nestjs/tsconfig.app.json",
-        "assets": [
-          "apps/schemify-microservice-nestjs/src/example/infraestructure/grpc/proto/internal/*.proto"
-        ],
+        "assets": ["libs/proto/src/**/*.proto"],
         "watchAssets": true
       }
     },
@@ -57,14 +55,14 @@
         "watchAssets": true
       }
     },
-    "common": {
+
+    "proto": {
       "type": "library",
-      "root": "libs/common",
+      "root": "libs/proto",
       "entryFile": "index",
-      "sourceRoot": "libs/common/src",
+      "sourceRoot": "libs/proto/src",
       "compilerOptions": {
-        "tsConfigPath": "apps/schemify-nestjs/tsconfig.app.json",
-        "assets": ["proto/*.proto"],
+        "assets": ["**/*.proto"],
         "watchAssets": true
       }
     }

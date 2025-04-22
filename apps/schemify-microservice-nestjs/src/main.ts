@@ -1,9 +1,48 @@
 import { NestFactory } from '@nestjs/core'
-import { MicroserviceExampleModule } from './microservice-example.module'
+import { Transport, MicroserviceOptions } from '@nestjs/microservices'
+import { AppModule } from './app.module'
+
+import { EXAMPLE_PACKAGE_NAME } from 'libs/proto/generated'
+import { join } from 'path'
+
+// import { Partitioners } from 'kafkajs'
 
 async function bootstrap() {
-  const app = await NestFactory.create(MicroserviceExampleModule)
-  await app.listen(process.env.port ?? 3004)
+  const app = await NestFactory.create(AppModule)
+
+  app.connectMicroservice<MicroserviceOptions>({
+    transport: Transport.GRPC,
+    options: {
+      package: EXAMPLE_PACKAGE_NAME,
+      protoPath: join(
+        __dirname,
+        '../proto/src/services/example_service/example.proto'
+      )
+    }
+  })
+
+  // 3. Configurar Kafka (para consumir mensajes asíncronos)
+
+  // app.connectMicroservice<MicroserviceOptions>({
+  //   transport: Transport.KAFKA,
+
+  //   options: {
+  //     client: {
+  //       clientId: 'example-service',
+  //       brokers: ['kafka1:9092', 'kafka2:9092']
+  //     },
+
+  //     consumer: {
+  //       groupId: 'example-consumer'
+  //     }
+  //   }
+  // })
+
+  // 4. Iniciar los microservicios
+  await app.startAllMicroservices()
 }
-// eslint-disable-next-line @typescript-eslint/no-floating-promises
-bootstrap()
+
+bootstrap().catch((err) => {
+  console.error('Error al iniciar el microservicio:', err)
+  process.exit(1)
+})

@@ -18,8 +18,9 @@
     "strictBindCallApply": false,
     "noFallthroughCasesInSwitch": false,
     "paths": {
-      "@app/common": ["libs/common/src"],
-      "@app/common/*": ["libs/common/src/*"]
+      "@app/proto": ["libs/proto/src"],
+      "@app/proto/internal": ["libs/proto/src/internal"],
+      "@app/proto/external": ["libs/proto/src/external"]
     }
   }
 }
