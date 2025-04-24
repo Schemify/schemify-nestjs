@@ -1,3 +1,5 @@
+// entidad + repositorio + value object
+
 import { DescriptionValueObject } from '../value-objects/description.value-object'
 import { v4 as uuidv4 } from 'uuid'
 
@@ -46,6 +48,23 @@ export class ExampleEntity {
     }
 
     this.updatedAt = new Date()
+  }
+
+  static reconstruct(props: {
+    id: string
+    name: string
+    description: string
+    createdAt: Date
+    updatedAt?: Date
+  }): ExampleEntity {
+    // reconstrucción desde persistencia
+    return new ExampleEntity({
+      id: props.id,
+      name: props.name,
+      description: DescriptionValueObject.create(props.description),
+      createdAt: props.createdAt,
+      updatedAt: props.updatedAt
+    })
   }
 
   toObject() {

@@ -1,11 +1,13 @@
-import { Injectable, NotFoundException } from '@nestjs/common'
+import { Inject, Injectable, NotFoundException } from '@nestjs/common'
 import { CreateExampleDto } from '../dtos/create-example.dto'
 import { ExampleEntity } from '../../domain/entities/example.entity'
 import { ExampleRepository } from '../../domain/repositories/example.repository'
 
 @Injectable()
 export class ExampleApplicationService {
-  constructor(private readonly repository: ExampleRepository) {}
+  constructor(
+    @Inject('ExampleRepository') private readonly repository: ExampleRepository
+  ) {}
 
   async create(dto: CreateExampleDto): Promise<ExampleEntity> {
     const example = ExampleEntity.create(dto)
