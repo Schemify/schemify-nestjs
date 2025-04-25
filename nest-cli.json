@@ -22,40 +22,6 @@
         "watchAssets": true
       }
     },
-    "api-gateway": {
-      "type": "application",
-      "root": "apps/api-gateway",
-      "entryFile": "src/main",
-      "sourceRoot": "./",
-      "compilerOptions": {
-        "tsConfigPath": "apps/api-gateway/tsconfig.app.json",
-        "assets": ["proto/*.proto"],
-        "watchAssets": true
-      }
-    },
-    "schemify-nestjs": {
-      "type": "application",
-      "root": "apps/schemify-nestjs",
-      "entryFile": "src/main",
-      "sourceRoot": "./",
-      "compilerOptions": {
-        "tsConfigPath": "apps/schemify-nestjs/tsconfig.app.json",
-        "assets": ["proto/*.proto"],
-        "watchAssets": true
-      }
-    },
-    "schemify-nestjs-consumer": {
-      "type": "application",
-      "root": "apps/schemify-nestjs-consumer",
-      "entryFile": "src/main",
-      "sourceRoot": "./",
-      "compilerOptions": {
-        "tsConfigPath": "apps/schemify-nestjs-consumer/tsconfig.app.json",
-        "assets": ["proto/*.proto"],
-        "watchAssets": true
-      }
-    },
-
     "proto": {
       "type": "library",
       "root": "libs/proto",

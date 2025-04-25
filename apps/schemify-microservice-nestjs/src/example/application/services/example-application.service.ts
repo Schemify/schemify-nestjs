@@ -1,3 +1,4 @@
+/* eslint-disable @darraghor/nestjs-typed/injectable-should-be-provided */
 import { Inject, Injectable, NotFoundException } from '@nestjs/common'
 import { CreateExampleDto } from '../dtos/create-example.dto'
 import { ExampleEntity } from '../../domain/entities/example.entity'

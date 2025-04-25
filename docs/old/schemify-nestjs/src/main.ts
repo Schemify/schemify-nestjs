@@ -3,7 +3,7 @@ import { Transport, MicroserviceOptions } from '@nestjs/microservices'
 import { AppModule } from './app.module'
 import { join } from 'path'
 import { Logger } from '@nestjs/common'
-import { EXAMPLE_PACKAGE_NAME } from '@app/common' // Ajusta según tu paquete protobuf
+import { EXAMPLE_PACKAGE_NAME } from '@app/proto' // Ajusta según tu paquete protobuf
 // import { Partitioners } from 'kafkajs'
 
 async function bootstrap() {

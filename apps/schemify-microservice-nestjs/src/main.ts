@@ -1,14 +1,19 @@
 import { NestFactory } from '@nestjs/core'
 import { Transport, MicroserviceOptions } from '@nestjs/microservices'
 import { AppModule } from './app.module'
+import { Logger } from '@nestjs/common'
 
-import { EXAMPLE_PACKAGE_NAME } from 'libs/proto/generated'
+import { EXAMPLE_PACKAGE_NAME } from '@app/proto'
 import { join } from 'path'
+
+import { GrpcLoggingInterceptor } from './example/infrastructure/interceptors/grpc-logging.interceptor'
 
 // import { Partitioners } from 'kafkajs'
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule)
+
+  const logger = new Logger('SchemifyMicroservice')
 
   app.connectMicroservice<MicroserviceOptions>({
     transport: Transport.GRPC,
@@ -17,9 +22,14 @@ async function bootstrap() {
       protoPath: join(
         __dirname,
         '../proto/src/services/example_service/example.proto'
-      )
+      ),
+      url: 'localhost:50051'
     }
   })
+
+  if (process.env.NODE_ENV === 'development') {
+    app.useGlobalInterceptors(new GrpcLoggingInterceptor())
+  }
 
   // 3. Configurar Kafka (para consumir mensajes asíncronos)
 
@@ -40,6 +50,18 @@ async function bootstrap() {
 
   // 4. Iniciar los microservicios
   await app.startAllMicroservices()
+  logger.log('✅ Microservicio gRPC listo en puerto 50051')
+
+  if (process.env.NODE_ENV === 'development') {
+    app.useGlobalInterceptors(new GrpcLoggingInterceptor())
+    logger.verbose(
+      '🧪 Modo desarrollo activado, interceptor de logging habilitado'
+    )
+  } else {
+    logger.log(`🚀 Modo producción: NODE_ENV=${process.env.NODE_ENV}`)
+  }
+
+  await app.init()
 }
 
 bootstrap().catch((err) => {

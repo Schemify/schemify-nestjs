@@ -18,9 +18,10 @@
     "strictBindCallApply": false,
     "noFallthroughCasesInSwitch": false,
     "paths": {
-      "@app/proto": ["libs/proto/src"],
+      "@app/proto": ["libs/proto/generated/"],
       "@app/proto/internal": ["libs/proto/src/internal"],
-      "@app/proto/external": ["libs/proto/src/external"]
+      "@app/proto/external": ["libs/proto/src/external"],
+      "@app/proto2": ["libs/proto/src/services/example_service/example.proto"]
     }
   }
 }

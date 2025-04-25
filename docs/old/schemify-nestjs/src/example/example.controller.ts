@@ -1,3 +1,5 @@
+/* eslint-disable @darraghor/nestjs-typed/injectable-should-be-provided */
+/* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-base-to-string */
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
 /* eslint-disable @darraghor/nestjs-typed/controllers-should-supply-api-tags */
@@ -9,11 +11,10 @@ import { ExampleService } from './example.service'
 import {
   ExampleServiceController,
   GetExampleByIdDto,
-  PaginationDto,
   CreateExampleDto,
   UpdateExampleDto,
   ExampleServiceControllerMethods
-} from '@app/common'
+} from '@app/proto'
 import { Observable } from 'rxjs'
 import { Ctx, EventPattern, KafkaContext, Payload } from '@nestjs/microservices'
 

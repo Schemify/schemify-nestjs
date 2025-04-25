@@ -1,3 +1,5 @@
+/* eslint-disable @darraghor/nestjs-typed/injectable-should-be-provided */
+/* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @darraghor/nestjs-typed/controllers-should-supply-api-tags */
 
 import { Controller } from '@nestjs/common'
@@ -10,9 +12,10 @@ import {
   ExampleServiceControllerMethods,
   Example,
   Examples
-} from 'libs/proto/generated'
+} from '@app/proto'
 import { ExampleApplicationService } from '../../application/services/example-application.service'
 import { ExampleMapper } from '../../application/mappers/example.mapper'
+// import { GrpcMethod } from '@nestjs/microservices'
 
 // import { CreateExampleDto } from '../../application/dtos/create-example.dto'
 // import { UpdateExampleDto } from '../../application/dtos/update-example.dto'
@@ -35,6 +38,7 @@ export class ExampleGrpcController implements ExampleServiceController {
     }
   }
 
+  // @GrpcMethod('ExampleService', 'getAllExamples')
   async getAllExamples(): Promise<Examples> {
     try {
       const entities = await this.applicationService.findAll()
