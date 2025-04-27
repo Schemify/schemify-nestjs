@@ -1,5 +1,5 @@
 /* eslint-disable @darraghor/nestjs-typed/injectable-should-be-provided */
-/* eslint-disable @typescript-eslint/no-unsafe-call */
+
 /* eslint-disable @darraghor/nestjs-typed/controllers-should-supply-api-tags */
 
 import { Controller } from '@nestjs/common'

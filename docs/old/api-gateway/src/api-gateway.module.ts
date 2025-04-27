@@ -1,8 +1,8 @@
-import { Module } from '@nestjs/common'
+// import { Module } from '@nestjs/common'
 
-import { ExamplesModule } from './examples/examples.module'
+// import { ExamplesModule } from './examples/examples.module'
 
-@Module({
-  imports: [ExamplesModule]
-})
-export class ApiGatewayModule {}
+// @Module({
+//   imports: [ExamplesModule]
+// })
+// export class ApiGatewayModule {}

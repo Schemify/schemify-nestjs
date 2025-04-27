@@ -1,5 +1,4 @@
 /* eslint-disable @darraghor/nestjs-typed/injectable-should-be-provided */
-/* eslint-disable @typescript-eslint/no-unsafe-call */
 
 import { Injectable } from '@nestjs/common'
 import { PrismaService } from './prisma.service'
