@@ -1,26 +1,29 @@
-## Introducción  
-Esta guía muestra, de principio a fin, cómo **compilar los `.proto`, arrancar el microservicio `schemify-microservice-nestjs`, ejecutar las pruebas E2E y realizar pruebas manuales en Kreya**.  
+## Introducción
+
+Esta guía muestra, de principio a fin, cómo **compilar los `.proto`, arrancar el microservicio `schemify-microservice-nestjs`, ejecutar las pruebas E2E y realizar pruebas manuales en Kreya**.
 
 ---
 
-## Índice  
-1. [`Estructura del proyecto`](#1-estructura-del-proyecto)  
+## Índice
+
+1. [`Estructura del proyecto`](#1-estructura-del-proyecto)
 2. [`Compilación de archivos .proto`](#2-compilación-de-archivos-proto)  
    2.1 [`Ubicación`](#21-ubicación-de-los-proto)  
    2.2 [`Comando estándar`](#22-comando-estándar-con-ts-proto)  
    2.3 [`Script reutilizable`](#23-script-reutilizable)  
-   2.4 [`Movimiento de generados`](#24-movimiento-del-código-generado)  
-3. [`Arranque del microservicio`](#3-arranque-del-microservicio)  
-4. [`Ejecución de pruebas E2E (Jest)`](#4-ejecución-de-las-pruebas-e2e-jest)  
+   2.4 [`Movimiento de generados`](#24-movimiento-del-código-generado)
+3. [`Arranque del microservicio`](#3-arranque-del-microservicio)
+4. [`Ejecución de pruebas E2E (Jest)`](#4-ejecución-de-las-pruebas-e2e-jest)
 5. [`Pruebas manuales con Kreya`](#5-pruebas-manuales-con-kreya)  
    5.1 [`Instalación`](#51-instalación-rápida)  
    5.2 [`Configuración mínima`](#52-configuración-mínima)  
-   5.3 [`Ventajas y alternativas`](#53-ventajas-y-alternativas)  
-6. [`Tabla de comandos rápidos`](#6-anexo--tabla-de-comandos-rápidos)  
+   5.3 [`Ventajas y alternativas`](#53-ventajas-y-alternativas)
+6. [`Tabla de comandos rápidos`](#6-anexo--tabla-de-comandos-rápidos)
 
 ---
 
 ### 1. Estructura del proyecto
+
 ```text
 libs/
 └─ proto/
@@ -38,9 +41,11 @@ apps/
 ### 2. Compilación de archivos `.proto`
 
 #### 2.1 Ubicación de los `.proto`
-Todos los contratos fuente viven en **`libs/proto/src/services/**`**.
+
+Todos los contratos fuente viven en **`libs/proto/src/services/**`\*\*.
 
 #### 2.2 Comando estándar con `ts-proto`
+
 ```bash
 # Ejecutar desde la raíz
 npx protoc \
@@ -51,6 +56,7 @@ npx protoc \
 ```
 
 #### 2.3 Script reutilizable
+
 ```bash
 npx protoc \
   --plugin=./node_modules/.bin/protoc-gen-ts_proto.cmd \
@@ -60,6 +66,7 @@ npx protoc \
 ```
 
 #### 2.4 Movimiento del código generado
+
 ```bash
 mv libs/proto/src/services/example_service/example.ts \
    libs/proto/generated/services/example_service/
@@ -68,12 +75,14 @@ mv libs/proto/src/services/example_service/example.ts \
 ---
 
 ### 3. Arranque del microservicio
+
 ```json
 // package.json
 "scripts": {
   "start:schemify": "NODE_ENV=development nest start --watch schemify-microservice-nestjs"
 }
 ```
+
 ```bash
 npm run start:schemify
 # → ✅ Microservicio gRPC listo en puerto 50051
@@ -82,6 +91,7 @@ npm run start:schemify
 ---
 
 ### 4. Ejecución de las pruebas E2E (Jest)
+
 ```bash
 # terminal 1: microservicio encendido
 # terminal 2:
@@ -93,23 +103,25 @@ npm run test:e2e          # jest --config ./jest.config.ts
 ### 5. Pruebas manuales con Kreya
 
 #### 5.1 Instalación rápida
+
 Descarga la versión gratuita: <https://kreya.app/>
 
 #### 5.2 Configuración mínima
-1. **Nuevo Proyecto → gRPC**  
-2. Endpoint → `http://localhost:50051` (o `dns:localhost:50051`)  
-3. Importar `example.proto`  
-4. Seleccionar servicio **example.ExampleService**  
+
+1. **Nuevo Proyecto → gRPC**
+2. Endpoint → `http://localhost:50051` (o `dns:localhost:50051`)
+3. Importar `example.proto`
+4. Seleccionar servicio **example.ExampleService**
 5. Elegir RPC, cuerpo `{}`, **Send** → ver respuesta.
 
 #### 5.3 Ventajas y alternativas
 
 | Herramienta   | UI  | Streaming | Licencia         |
 | ------------- | --- | --------- | ---------------- |
-| **Kreya**     | ✔   | ✔         | Free&nbsp;/ Pro  |
-| BloomRPC      | ✔   | Limitado  | Free             |
-| Insomnia gRPC | ✔   | ✔         | Free&nbsp;/ Paid |
-| grpcurl (CLI) | ✖   | ✔         | Free             |
+| **Kreya**     | ✔  | ✔        | Free&nbsp;/ Pro  |
+| BloomRPC      | ✔  | Limitado  | Free             |
+| Insomnia gRPC | ✔  | ✔        | Free&nbsp;/ Paid |
+| grpcurl (CLI) | ✖  | ✔        | Free             |
 
 ---
 

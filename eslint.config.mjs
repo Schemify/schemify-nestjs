@@ -37,7 +37,7 @@ export default tseslint.config(
       '@typescript-eslint/no-unsafe-member-access': 'off',
       '@typescript-eslint/no-var-requires': 'off',
 
-      'linebreak-style': ['error', 'unix']
+      'linebreak-style': ['error', 'windows']
     }
   },
   eslintNestJs.configs.flatRecommended
