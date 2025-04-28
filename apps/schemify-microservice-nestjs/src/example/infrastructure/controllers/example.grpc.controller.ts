@@ -71,46 +71,18 @@ export class ExampleGrpcController implements ExampleServiceController {
 
   async updateExample(protoDto: ProtoUpdateExampleDto): Promise<Example> {
     try {
-      if (!protoDto.example?.id) {
+      if (!protoDto.id) {
         throw new Error('ID is required for update')
       }
 
       const appDto = this.mapper.protoToUpdateDto(protoDto)
 
-      const entity = await this.applicationService.update(
-        protoDto.example.id,
-        appDto
-      )
+      const entity = await this.applicationService.update(protoDto.id, appDto)
       return this.mapper.entityToProtoResponse(entity)
     } catch (error) {
       this.handleGrpcError(error)
     }
   }
-
-  // queryExamples(
-  //   paginationDtoStream: Observable<PaginationDto>
-  // ): Observable<Examples> {
-  //   // Implementación para streaming
-  //   return new Observable((subscriber) => {
-  //     paginationDtoStream.subscribe({
-  //       next: async (paginationDto) => {
-  //         try {
-  //           const entities =
-  //             await this.applicationService.paginate(paginationDto)
-  //           subscriber.next({
-  //             examples: entities.map((entity) =>
-  //               this.mapper.entityToProtoResponse(entity)
-  //             )
-  //           })
-  //         } catch (error) {
-  //           subscriber.error(this.handleGrpcError(error))
-  //         }
-  //       },
-  //       complete: () => subscriber.complete(),
-  //       error: (error) => subscriber.error(error)
-  //     })
-  //   })
-  // }
 
   private handleGrpcError(error: Error): never {
     // Implementación de manejo de errores gRPC

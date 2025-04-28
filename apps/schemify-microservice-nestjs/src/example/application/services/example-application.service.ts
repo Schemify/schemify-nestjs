@@ -1,4 +1,3 @@
-/* eslint-disable @darraghor/nestjs-typed/injectable-should-be-provided */
 import { Inject, Injectable, NotFoundException } from '@nestjs/common'
 import { CreateExampleDto } from '../dtos/create-example.dto'
 import { ExampleEntity } from '../../domain/entities/example.entity'
@@ -39,7 +38,18 @@ export class ExampleApplicationService {
   }
 
   async delete(id: string): Promise<void> {
-    // const entity = await this.findOne(id)
-    await this.repository.delete(id)
+    const entity = await this.findOne(id)
+
+    try {
+      if (!entity) {
+        throw new NotFoundException(`Example with id ${id} not found`)
+      }
+      await this.repository.delete(id)
+    } catch (error) {
+      if (error instanceof NotFoundException) {
+        throw error
+      }
+      throw new Error(`Error deleting example with id ${id}: ${error.message}`)
+    }
   }
 }

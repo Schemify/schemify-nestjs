@@ -5,45 +5,51 @@
 // source: libs/proto/src/services/example_service/example.proto
 
 /* eslint-disable */
-import { GrpcMethod, GrpcStreamMethod } from '@nestjs/microservices'
-import { Observable } from 'rxjs'
+import { GrpcMethod, GrpcStreamMethod } from "@nestjs/microservices";
+import { Observable } from "rxjs";
 
-export const protobufPackage = 'example'
+export const protobufPackage = "example";
 
 /** Mensaje vacío utilizado para las peticiones que no requieren datos adicionales. */
-export interface Empty {}
+export interface Empty {
+}
 
 /** Mensaje utilizado para crear un nuevo ejemplo. */
 export interface CreateExampleDto {
-  name: string
-  description?: string | undefined
+  name: string;
+  description?: string | undefined;
 }
 
 /** Mensaje utilizado para actualizar un ejemplo existente. */
 export interface UpdateExampleDto {
-  id: string
-  example: Example | undefined
+  id: string;
+  example: UpdateExampleData | undefined;
 }
 
 /** Mensaje utilizado para obtener un ejemplo por su ID. */
 export interface GetExampleByIdDto {
-  id: string
+  id: string;
 }
 
 /** Mensaje utilizado para devolver un ejemplo. */
 export interface Examples {
-  examples: Example[]
+  examples: Example[];
 }
 
 /** Mensaje que representa un ejemplo en la aplicación. */
 export interface Example {
   /** Identificador único del ejemplo. */
-  id: string
-  name: string
-  description?: string | undefined
+  id: string;
+  name: string;
+  description?: string | undefined;
 }
 
-export const EXAMPLE_PACKAGE_NAME = 'example'
+export interface UpdateExampleData {
+  name: string;
+  description?: string | undefined;
+}
+
+export const EXAMPLE_PACKAGE_NAME = "example";
 
 /**
  * Contratos de comunicación entre el cliente y el servidor
@@ -51,15 +57,15 @@ export const EXAMPLE_PACKAGE_NAME = 'example'
  */
 
 export interface ExampleServiceClient {
-  createExample(request: CreateExampleDto): Observable<Example>
+  createExample(request: CreateExampleDto): Observable<Example>;
 
-  getAllExamples(request: Empty): Observable<Examples>
+  getAllExamples(request: Empty): Observable<Examples>;
 
-  getExampleById(request: GetExampleByIdDto): Observable<Example>
+  getExampleById(request: GetExampleByIdDto): Observable<Example>;
 
-  updateExample(request: UpdateExampleDto): Observable<Example>
+  updateExample(request: UpdateExampleDto): Observable<Example>;
 
-  deleteExample(request: GetExampleByIdDto): Observable<Empty>
+  deleteExample(request: GetExampleByIdDto): Observable<Empty>;
 }
 
 /**
@@ -68,60 +74,36 @@ export interface ExampleServiceClient {
  */
 
 export interface ExampleServiceController {
-  createExample(
-    request: CreateExampleDto
-  ): Promise<Example> | Observable<Example> | Example
+  createExample(request: CreateExampleDto): Promise<Example> | Observable<Example> | Example;
 
-  getAllExamples(
-    request: Empty
-  ): Promise<Examples> | Observable<Examples> | Examples
+  getAllExamples(request: Empty): Promise<Examples> | Observable<Examples> | Examples;
 
-  getExampleById(
-    request: GetExampleByIdDto
-  ): Promise<Example> | Observable<Example> | Example
+  getExampleById(request: GetExampleByIdDto): Promise<Example> | Observable<Example> | Example;
 
-  updateExample(
-    request: UpdateExampleDto
-  ): Promise<Example> | Observable<Example> | Example
+  updateExample(request: UpdateExampleDto): Promise<Example> | Observable<Example> | Example;
 
-  deleteExample(
-    request: GetExampleByIdDto
-  ): Promise<Empty> | Observable<Empty> | Empty
+  deleteExample(request: GetExampleByIdDto): Promise<Empty> | Observable<Empty> | Empty;
 }
 
 export function ExampleServiceControllerMethods() {
   return function (constructor: Function) {
     const grpcMethods: string[] = [
-      'createExample',
-      'getAllExamples',
-      'getExampleById',
-      'updateExample',
-      'deleteExample'
-    ]
+      "createExample",
+      "getAllExamples",
+      "getExampleById",
+      "updateExample",
+      "deleteExample",
+    ];
     for (const method of grpcMethods) {
-      const descriptor: any = Reflect.getOwnPropertyDescriptor(
-        constructor.prototype,
-        method
-      )
-      GrpcMethod('ExampleService', method)(
-        constructor.prototype[method],
-        method,
-        descriptor
-      )
+      const descriptor: any = Reflect.getOwnPropertyDescriptor(constructor.prototype, method);
+      GrpcMethod("ExampleService", method)(constructor.prototype[method], method, descriptor);
     }
-    const grpcStreamMethods: string[] = []
+    const grpcStreamMethods: string[] = [];
     for (const method of grpcStreamMethods) {
-      const descriptor: any = Reflect.getOwnPropertyDescriptor(
-        constructor.prototype,
-        method
-      )
-      GrpcStreamMethod('ExampleService', method)(
-        constructor.prototype[method],
-        method,
-        descriptor
-      )
+      const descriptor: any = Reflect.getOwnPropertyDescriptor(constructor.prototype, method);
+      GrpcStreamMethod("ExampleService", method)(constructor.prototype[method], method, descriptor);
     }
-  }
+  };
 }
 
-export const EXAMPLE_SERVICE_NAME = 'ExampleService'
+export const EXAMPLE_SERVICE_NAME = "ExampleService";

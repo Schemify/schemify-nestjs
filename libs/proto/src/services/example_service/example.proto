@@ -33,7 +33,7 @@ message CreateExampleDto {
 // Mensaje utilizado para actualizar un ejemplo existente.
 message UpdateExampleDto {
     string id = 1;
-    Example example = 2;
+    UpdateExampleData example = 2;
 }
 
 // Mensaje utilizado para obtener un ejemplo por su ID.
@@ -54,4 +54,8 @@ message Example {
     optional string description = 3;
 }
 
+message UpdateExampleData {
+    string name = 1;
+    optional string description = 2;
+}
 
