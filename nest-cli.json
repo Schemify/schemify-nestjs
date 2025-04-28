@@ -6,62 +6,31 @@
   "compilerOptions": {
     "deleteOutDir": true,
     "webpack": true,
-    "tsConfigPath": "apps/schemify-nestjs/tsconfig.app.json"
+    "tsConfigPath": "apps/schemify-microservice-nestjs/tsconfig.app.json"
   },
   "monorepo": true,
-  "root": "apps/schemify-nestjs",
+  "root": "apps/schemify-microservice-nestjs",
   "projects": {
-    "api-gateway": {
+    "schemify-microservice-nestjs": {
       "type": "application",
-      "root": "apps/api-gateway",
+      "root": "apps/schemify-microservice-nestjs",
       "entryFile": "src/main",
       "sourceRoot": "./",
       "compilerOptions": {
-        "tsConfigPath": "apps/api-gateway/tsconfig.app.json",
-        "assets": ["proto/*.proto"],
+        "tsConfigPath": "apps/schemify-microservice-nestjs/tsconfig.app.json",
+        "assets": ["libs/proto/src/services/**/*.proto"],
         "watchAssets": true
       }
     },
-    "schemify-nestjs": {
-      "type": "application",
-      "root": "apps/schemify-nestjs",
-      "entryFile": "src/main",
-      "sourceRoot": "./",
-      "compilerOptions": {
-        "tsConfigPath": "apps/schemify-nestjs/tsconfig.app.json",
-        "assets": ["proto/*.proto"],
-        "watchAssets": true
-      }
-    },
-    "schemify-nestjs-consumer": {
-      "type": "application",
-      "root": "apps/schemify-nestjs-consumer",
-      "entryFile": "src/main",
-      "sourceRoot": "./",
-      "compilerOptions": {
-        "tsConfigPath": "apps/schemify-nestjs-consumer/tsconfig.app.json",
-        "assets": ["proto/*.proto"],
-        "watchAssets": true
-      }
-    },
-    "common": {
+    "proto": {
       "type": "library",
-      "root": "libs/common",
+      "root": "libs/proto",
       "entryFile": "index",
-      "sourceRoot": "libs/common/src",
+      "sourceRoot": "libs/proto/src",
       "compilerOptions": {
-        "tsConfigPath": "apps/schemify-nestjs/tsconfig.app.json",
-        "assets": ["proto/*.proto"],
+        "tsConfigPath": "apps/schemify-microservice-nestjs/tsconfig.app.json",
+        "assets": ["libs/proto/src/services/**/*.proto"],
         "watchAssets": true
-      }
-    },
-    "microservice-example": {
-      "type": "application",
-      "root": "apps/microservice-example",
-      "entryFile": "main",
-      "sourceRoot": "apps/microservice-example/src",
-      "compilerOptions": {
-        "tsConfigPath": "apps/microservice-example/tsconfig.app.json"
       }
     }
   }

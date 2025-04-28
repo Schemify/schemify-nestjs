@@ -1,0 +1,13 @@
+{
+  "details": {
+    "methodFqn": "example.ExampleService.DeleteExample"
+  },
+  "requests": [
+    {
+      "location": "DeleteExample-request.json"
+    }
+  ],
+  "operationType": "unary",
+  "invokerName": "grpc",
+  "importStreamId": "6927f59e-6893-4cca-8257-4ffd1c9320e2"
+}
