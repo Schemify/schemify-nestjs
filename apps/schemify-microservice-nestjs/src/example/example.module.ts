@@ -1,11 +1,12 @@
 import { Module } from '@nestjs/common'
 
 import { ExampleInfrastructureModule } from './infrastructure/modules/example.module'
-import { ExampleApplicationService } from './application/services/example-application.service'
+// import { ExampleApplicationService } from './application/services/example-application.service'
 
 @Module({
   imports: [ExampleInfrastructureModule],
   controllers: [],
-  providers: [ExampleApplicationService]
+  // providers: [ExampleApplicationService],
+  exports: []
 })
 export class ExampleModule {}

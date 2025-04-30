@@ -23,7 +23,7 @@ async function bootstrap() {
         __dirname,
         '../proto/src/services/example_service/example.proto'
       ),
-      url: 'localhost:50051'
+      url: '0.0.0.0:50051'
     }
   })
 
