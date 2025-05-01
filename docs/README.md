@@ -57,3 +57,5 @@ Mover archivo resultante a libs/common/src/types
 "assets": ["proto/*.proto"],
 "watchAssets": true
 }
+
+🔒 Logger centralizado (por ejemplo con Pino) y redirección de logs Kafka a archivos o servicios externos.
