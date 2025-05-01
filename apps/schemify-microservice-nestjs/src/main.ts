@@ -33,20 +33,21 @@ async function bootstrap() {
 
   // 3. Configurar Kafka (para consumir mensajes asíncronos)
 
-  // app.connectMicroservice<MicroserviceOptions>({
-  //   transport: Transport.KAFKA,
+  app.connectMicroservice<MicroserviceOptions>({
+    transport: Transport.KAFKA,
 
-  //   options: {
-  //     client: {
-  //       clientId: 'example-service',
-  //       brokers: ['kafka1:9092', 'kafka2:9092']
-  //     },
+    options: {
+      client: {
+        clientId: 'kafka-example',
+        brokers: ['kafka1:9092']
+      },
 
-  //     consumer: {
-  //       groupId: 'example-consumer'
-  //     }
-  //   }
-  // })
+      consumer: {
+        groupId: 'example-consumer',
+        allowAutoTopicCreation: false
+      }
+    }
+  })
 
   // 4. Iniciar los microservicios
   await app.startAllMicroservices()
