@@ -1,5 +1,3 @@
-/* eslint-disable @darraghor/nestjs-typed/injectable-should-be-provided */
-
 /* eslint-disable @darraghor/nestjs-typed/controllers-should-supply-api-tags */
 
 import { Controller } from '@nestjs/common'
@@ -20,19 +18,28 @@ import { ExampleMapper } from '../../application/mappers/example.mapper'
 // import { CreateExampleDto } from '../../application/dtos/create-example.dto'
 // import { UpdateExampleDto } from '../../application/dtos/update-example.dto'
 
+import { KafkaProducerService } from '../../infrastructure/messaging/kafka/kafka-producer.service'
+
 @Controller()
 @ExampleServiceControllerMethods()
 export class ExampleGrpcController implements ExampleServiceController {
   constructor(
     private readonly applicationService: ExampleApplicationService,
-    private readonly mapper: ExampleMapper
+    private readonly mapper: ExampleMapper,
+    private readonly kafkaProducer: KafkaProducerService
   ) {}
 
   async createExample(protoDto: ProtoCreateExampleDto): Promise<Example> {
     try {
       const appDto = this.mapper.protoToCreateDto(protoDto)
       const entity = await this.applicationService.create(appDto)
-      return this.mapper.entityToProtoResponse(entity)
+
+      const proto = this.mapper.entityToProtoResponse(entity)
+
+      // 👇 Emitir mensaje Kafka
+      await this.kafkaProducer.emitExampleCreated(proto)
+
+      return proto
     } catch (error) {
       this.handleGrpcError(error)
     }

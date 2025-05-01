@@ -8,6 +8,8 @@ import { join } from 'path'
 
 import { GrpcLoggingInterceptor } from './example/infrastructure/interceptors/grpc-logging.interceptor'
 
+import { kafkaCommonConfig } from './example/infrastructure/config/kafka.config'
+
 // import { Partitioners } from 'kafkajs'
 
 async function bootstrap() {
@@ -32,21 +34,17 @@ async function bootstrap() {
   }
 
   // 3. Configurar Kafka (para consumir mensajes asíncronos)
+  app.connectMicroservice<MicroserviceOptions>({
+    transport: Transport.KAFKA,
 
-  // app.connectMicroservice<MicroserviceOptions>({
-  //   transport: Transport.KAFKA,
-
-  //   options: {
-  //     client: {
-  //       clientId: 'example-service',
-  //       brokers: ['kafka1:9092', 'kafka2:9092']
-  //     },
-
-  //     consumer: {
-  //       groupId: 'example-consumer'
-  //     }
-  //   }
-  // })
+    options: {
+      ...kafkaCommonConfig,
+      consumer: {
+        groupId: 'schemify-microservice-nestjs-consumer',
+        allowAutoTopicCreation: false
+      }
+    }
+  })
 
   // 4. Iniciar los microservicios
   await app.startAllMicroservices()

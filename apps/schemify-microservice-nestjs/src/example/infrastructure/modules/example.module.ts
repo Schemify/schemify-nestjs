@@ -8,8 +8,10 @@ import { ExampleMapper } from '../../application/mappers/example.mapper'
 import { PrismaExampleRepository } from '../persistence/prisma/example-prisma.repository.ts'
 import { PrismaModule } from '../persistence/prisma/prisma.module'
 
+import { KafkaModule } from '../messaging/kafka/kafka.module'
+
 @Module({
-  imports: [PrismaModule],
+  imports: [PrismaModule, KafkaModule],
   providers: [
     ExampleApplicationService,
     ExampleMapper,
