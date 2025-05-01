@@ -16,6 +16,12 @@
     "forceConsistentCasingInFileNames": true,
     "noImplicitAny": false,
     "strictBindCallApply": false,
-    "noFallthroughCasesInSwitch": false
+    "noFallthroughCasesInSwitch": false,
+    "paths": {
+      "@app/proto": ["libs/proto/generated"],
+      "@app/proto/*": ["libs/proto/generated/*"]
+    },
+    "resolveJsonModule": true,
+    "esModuleInterop": true
   }
 }

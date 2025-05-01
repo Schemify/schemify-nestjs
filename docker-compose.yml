@@ -1,0 +1,46 @@
+services:
+  schemify-microservice:
+    container_name: schemify-microservice
+    build:
+      context: .
+      dockerfile: apps/schemify-microservice-nestjs/Dockerfile
+    ports:
+      - '${SERVICE_PORT}:${SERVICE_PORT}'
+      - '50051:50051'
+    environment:
+      - NODE_ENV=${NODE_ENV}
+      - PORT=${SERVICE_PORT}
+      - APP_NAME=${SERVICE_APP_NAME}
+      - GRPC_URL=${SERVICE_GRPC_URL}
+      - GRPC_PROTO_PATH=${SERVICE_GRPC_PROTO_PATH}
+      - DATABASE_URL=postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_DB}
+    depends_on:
+      - postgres
+    networks:
+      - schemify-net
+      - schemify-kafka-net
+
+  postgres:
+    container_name: postgres
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    ports:
+      - '${POSTGRES_PORT}:5432'
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    restart: on-failure
+    networks:
+      - schemify-net
+
+volumes:
+  postgres-data:
+    driver: local
+
+networks:
+  schemify-net:
+    driver: bridge
+  schemify-kafka-net:
+    driver: bridge

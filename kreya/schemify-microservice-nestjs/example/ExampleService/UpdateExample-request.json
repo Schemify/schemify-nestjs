@@ -1,0 +1,7 @@
+{
+  "id": "bf335df5-8dc4-4041-910e-b7643830bc6c",
+  "example": {
+    "name": "{{ faker.name.last_name }}",
+    "description": "Alaska Causeway"
+  }
+}
