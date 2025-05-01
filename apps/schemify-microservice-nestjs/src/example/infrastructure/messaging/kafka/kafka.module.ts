@@ -20,7 +20,8 @@ import { kafkaCommonConfig } from '../../config/kafka.config'
       }
     ])
   ],
-  providers: [KafkaProducerService, ExampleCreatedConsumer],
-  exports: [KafkaProducerService, ExampleCreatedConsumer]
+  controllers: [ExampleCreatedConsumer],
+  providers: [KafkaProducerService],
+  exports: [KafkaProducerService]
 })
 export class KafkaModule {}

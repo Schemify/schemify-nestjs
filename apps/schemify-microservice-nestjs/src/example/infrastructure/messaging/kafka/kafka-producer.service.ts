@@ -18,6 +18,8 @@ export class KafkaProducerService implements OnModuleInit {
     }
 
     const sizeInBytes = Buffer.byteLength(message.value, 'utf8')
+
+    // * Debugging de tamaño del mensaje
     // console.log(`📦 Tamaño del mensaje Kafka: ${sizeInBytes} bytes`)
 
     // Validación

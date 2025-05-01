@@ -40,7 +40,7 @@ async function bootstrap() {
     options: {
       ...kafkaCommonConfig,
       consumer: {
-        groupId: 'example-consumer',
+        groupId: 'schemify-microservice-nestjs-consumer',
         allowAutoTopicCreation: false
       }
     }
