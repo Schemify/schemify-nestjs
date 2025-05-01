@@ -1,26 +1,130 @@
 <p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
+  <a href="http://nestjs.com/" target="blank"><img src="https://schemify.github.io/schemify.com/assets/img/logos/schemify-logo.svg" width="120" alt="Nest Logo" /></a>
 </p>
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
+<p align="center">
+  <!-- Estado general -->
+  <img src="https://img.shields.io/badge/Status-Development-orange" alt="Estado del proyecto: En desarrollo" />
+
+  <!-- Tecnologías principales -->
+  <img src="https://img.shields.io/badge/NestJS-%5E10.x-E0234E?logo=nestjs&logoColor=white" alt="NestJS" />
+  <img src="https://img.shields.io/badge/Kafka-Bitnami-black?logo=apachekafka" alt="Kafka Bitnami" />
+  <img src="https://img.shields.io/badge/gRPC-Active-6f42c1?logo=grpc" alt="gRPC" />
+  <img src="https://img.shields.io/badge/Prisma-%5E6.x-2D3748?logo=prisma" alt="Prisma ORM" />
+  <img src="https://img.shields.io/badge/PostgreSQL-%5E15.x-4169E1?logo=postgresql&logoColor=white" alt="PostgreSQL" />
+  <img src="https://img.shields.io/badge/Docker-Ready-2496ED?logo=docker" alt="Docker Ready" />
+
+  <!-- Arquitectura -->
+  <img src="https://img.shields.io/badge/Domain--Driven%20Design-Aplicado-0d1117" alt="Domain-Driven Design aplicado" />
+  <img src="https://img.shields.io/badge/Ports%20%26%20Adapters-Architecture-lightgrey" alt="Arquitectura de Puertos y Adaptadores" />
 </p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
 
+
+
+
+## 📄 Descripción
+Este microservicio forma parte del ecosistema de <strong>Schemify</strong>. Fue desarrollado con:
+
+- NestJS como framework base.
+- Arquitectura Hexagonal y Domain-Driven Design (DDD).
+- Comunicación sincrónica vía gRPC.
+- Comunicación asíncrona vía Apache Kafka (Bitnami).
+- Prisma ORM y PostgreSQL como capa de persistencia.
+- Pruebas end-to-end usando Jest.
+
+---
+
+## ⚙️ Instalación del Proyecto
+
+```bash
+$ npm install
+```
+
+---
+
+## ⚡ Compilación y Ejecución
+
+```bash
+# Desarrollo
+$ npm run start:dev
+
+# Producción
+$ npm run start:prod
+```
+
+---
+
+## 🌍 Docker
+
+Este microservicio está listo para ejecutarse en contenedores. Puedes usar `docker-compose` para levantar los servicios:
+
+```bash
+$ docker compose up --build
+```
+
+Asegúrate de configurar la red externa `schemify-kafka-net` si usas otros servicios conectados por Kafka.
+
+---
+
+## 🔧 Pruebas
+
+```bash
+# Unitarias
+$ npm run test
+
+# End-to-End
+$ npm run test:e2e
+```
+
+---
+
+## 🚧 Tecnologías Clave
+
+- **gRPC**: contratos definidos en `.proto`, compilados con `ts-proto`, y expuestos como servicios NestJS.
+- **Kafka**: Producers y Consumers implementados como servicios inyectables. Soporte para múltiples topics y grupos.
+- **DDD / Hexagonal**:
+  - `application/`: DTOs, mappers, servicios y casos de uso.
+  - `domain/`: entidades, value objects, interfaces de repositorios.
+  - `infrastructure/`: controladores gRPC/Kafka, adapters de persistencia, módulos.
+
+---
+
+## 🔍 Exploración de mensajes Kafka
+Puedes monitorear el flujo de mensajes en tiempo real usando:
+
+- Kafka UI (`http://localhost:8081`)
+- Comando CLI:
+  ```bash
+  docker exec -it kafka1 kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic example-created --from-beginning
+  ```
+
+---
+
+## 👥 Autor y Contacto
+
+**Alejandro Díaz**  
+Estudiante de Ingeniería Civil Informática, Universidad de Valparaíso  
+
+- GitHub: [IxyzDev](https://github.com/IxyzDev)
+- LinkedIn: [in/ixyzdev](https://www.linkedin.com/in/ixyzdev/)
+
+---
+
+## 🔒 Licencia
+
+Este proyecto está licenciado bajo la licencia MIT.
+
+---
+
+<p align="center">
+  <em>Schemify Microservice</em> - Diseñado para ser simple, robusto y escalable. ✨
+</p>
+
+
+
+
+<!-- 
 ## Description
 
 [Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
@@ -95,4 +199,4 @@ Nest is an MIT-licensed open source project. It can grow thanks to the sponsors 
 
 ## License
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE). -->
