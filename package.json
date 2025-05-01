@@ -20,7 +20,7 @@
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./jest.config.ts",
     "test:e2e:schemify": "jest --selectProjects schemify-microservice-nestjs",
-    "prepare": "husky"
+    "prepare": "if [ \"$NODE_ENV\" != \"production\" ]; then husky install; fi"
   },
   "dependencies": {
     "@grpc/grpc-js": "^1.13.3",
