@@ -8,6 +8,8 @@ import { join } from 'path'
 
 import { GrpcLoggingInterceptor } from './example/infrastructure/interceptors/grpc-logging.interceptor'
 
+import { kafkaCommonConfig } from './example/infrastructure/config/kafka.config'
+
 // import { Partitioners } from 'kafkajs'
 
 async function bootstrap() {
@@ -32,16 +34,11 @@ async function bootstrap() {
   }
 
   // 3. Configurar Kafka (para consumir mensajes asíncronos)
-
   app.connectMicroservice<MicroserviceOptions>({
     transport: Transport.KAFKA,
 
     options: {
-      client: {
-        clientId: 'kafka-example',
-        brokers: ['kafka1:9092']
-      },
-
+      ...kafkaCommonConfig,
       consumer: {
         groupId: 'example-consumer',
         allowAutoTopicCreation: false
