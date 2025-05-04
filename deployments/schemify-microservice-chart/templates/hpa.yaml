@@ -2,14 +2,14 @@
 apiVersion: autoscaling/v2beta1
 kind: HorizontalPodAutoscaler
 metadata:
-  name: {{ include "schemify-microservice.fullname" . }}
+  name: {{ include "schemify-microservice-chart.fullname" . }}
   labels:
-    {{- include "schemify-microservice.labels" . | nindent 4 }}
+    {{- include "schemify-microservice-chart.labels" . | nindent 4 }}
 spec:
   scaleTargetRef:
     apiVersion: apps/v1
     kind: Deployment
-    name: {{ include "schemify-microservice.fullname" . }}
+    name: {{ include "schemify-microservice-chart.fullname" . }}
   minReplicas: {{ .Values.autoscaling.minReplicas }}
   maxReplicas: {{ .Values.autoscaling.maxReplicas }}
   metrics:
