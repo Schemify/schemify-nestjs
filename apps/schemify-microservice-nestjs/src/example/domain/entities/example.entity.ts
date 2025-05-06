@@ -1,5 +1,3 @@
-// entidad + repositorio + value object
-
 import { DescriptionValueObject } from '../value-objects/description.value-object'
 import { v4 as uuidv4 } from 'uuid'
 

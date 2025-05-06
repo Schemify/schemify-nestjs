@@ -1,7 +1,6 @@
 /* eslint-disable @darraghor/nestjs-typed/controllers-should-supply-api-tags */
 
 import { Controller } from '@nestjs/common'
-// import { Observable } from 'rxjs'
 import {
   ExampleServiceController,
   GetExampleByIdDto,
@@ -13,10 +12,6 @@ import {
 } from '@app/proto'
 import { ExampleApplicationService } from '../../application/services/example-application.service'
 import { ExampleMapper } from '../../application/mappers/example.mapper'
-// import { GrpcMethod } from '@nestjs/microservices'
-
-// import { CreateExampleDto } from '../../application/dtos/create-example.dto'
-// import { UpdateExampleDto } from '../../application/dtos/update-example.dto'
 
 import { KafkaProducerService } from '../../infrastructure/messaging/kafka/kafka-producer.service'
 
@@ -45,7 +40,6 @@ export class ExampleGrpcController implements ExampleServiceController {
     }
   }
 
-  // @GrpcMethod('ExampleService', 'getAllExamples')
   async getAllExamples(): Promise<Examples> {
     try {
       const entities = await this.applicationService.findAll()
@@ -92,8 +86,6 @@ export class ExampleGrpcController implements ExampleServiceController {
   }
 
   private handleGrpcError(error: Error): never {
-    // Implementación de manejo de errores gRPC
     throw new Error(`GRPC Error: ${error.message}`)
-    // En producción usaría RpcException y códigos de estado apropiados
   }
 }

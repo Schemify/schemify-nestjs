@@ -1,3 +1,5 @@
+http://localhost:8081/ui/clusters/local/all-topics/example-created/messages?keySerde=String&valueSerde=String&limit=100
+
 src/
 ├── domain/ # Capa de Dominio
 │ ├── entities/ # Entidades del dominio

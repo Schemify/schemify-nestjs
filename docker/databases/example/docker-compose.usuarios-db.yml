@@ -1,0 +1,23 @@
+services:
+  postgres-example:
+    container_name: postgres-example
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_DB: ${example_DB_NAME:-example_db}
+      POSTGRES_USER: ${example_DB_USER:-example_admin}
+      POSTGRES_PASSWORD: ${example_DB_PASSWORD:-secret123}
+    ports:
+      - '${example_DB_PORT:-5433}:5432'
+    volumes:
+      - example-db-data:/var/lib/postgresql/data
+    restart: unless-stopped
+    networks:
+      - example-db-net
+
+volumes:
+  example-db-data:
+    driver: local
+
+networks:
+  example-db-net:
+    driver: bridge
