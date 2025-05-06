@@ -1,0 +1,24 @@
+services:
+  postgres-usuarios:
+    container_name: postgres-usuarios
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_DB: ${USUARIOS_DB_NAME:-usuarios_db}
+      POSTGRES_USER: ${USUARIOS_DB_USER:-usuarios_admin}
+      POSTGRES_PASSWORD: ${USUARIOS_DB_PASSWORD:-secret123}
+      USUARIOS_DATABASE_URL: ${USUARIOS_DATABASE_URL}
+    ports:
+      - '${USUARIOS_DB_PORT:-5433}:5432'
+    volumes:
+      - usuarios-db-data:/var/lib/postgresql/data
+    restart: unless-stopped
+    networks:
+      - usuarios-db-net
+
+volumes:
+  usuarios-db-data:
+    driver: local
+
+networks:
+  usuarios-db-net:
+    driver: bridge
