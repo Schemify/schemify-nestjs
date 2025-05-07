@@ -9,7 +9,7 @@ RAW_NAME="$1"
 NAME=$(echo "$RAW_NAME" | tr '[:upper:]' '[:lower:]' | sed -E 's/[^a-z0-9]+/-/g' | sed -E 's/^-+|-+$//g')
 
 # CLASS_NAME = conservar mayúsculas, eliminar separadores
-CLASS_NAME=$(echo "$RAW_NAME" | sed -E 's/[^a-zA-Z0-9]+//g')
+CLASS_NAME=$(echo "$RAW_NAME" | sed -E 's/[^a-zA-Z0-9]+/ /g' | awk '{for(i=1;i<=NF;++i) $i=toupper(substr($i,1,1)) tolower(substr($i,2))} 1' | tr -d ' ')
 
 # INSTANCE_NAME = CLASS_NAME con minúscula inicial
 INSTANCE_NAME=$(echo "$CLASS_NAME" | sed -E 's/^([A-Z])/\L\1/')
@@ -21,7 +21,8 @@ CAMEL_CASE_NAME=$(echo "$RAW_NAME" | tr '[:upper:]' '[:lower:]' | sed -E 's/[^a-
 # 🏛️  Clase base: GestioonDeUsuarios
 # 🐍 Instancia: gestioonDeUsuarios
 
-DEST="apps/$NAME"
+PROJECT_ROOT=$(realpath "$(dirname "$0")/..")
+DEST="$PROJECT_ROOT/apps/$NAME"
 
 echo "📦 Generando microservicio: $NAME"
 echo "📂 Directorio destino: $DEST"
@@ -155,7 +156,7 @@ import { kafkaCommonConfig } from './$NAME/infrastructure/config/kafka.config'
 async function bootstrap() {
   const app = await NestFactory.create(AppModule)
 
-  const logger = new Logger('${NAME}Microservice');
+  const logger = new Logger('${NAME}Microservice')
 
   app.connectMicroservice<MicroserviceOptions>({
     transport: Transport.GRPC,
@@ -279,15 +280,13 @@ export class Update${CLASS_NAME}Dto {
 EOF
 
 # * src/${NAME}/aplication/mappers/${NAME}.mapper.ts
-cat <<EOF > $DEST/src/$NAME/application/mappers/${NAME}.mapper.ts
-// src/${NAME}/application/mappers/${NAME}.mapper.ts
-
+cat <<EOF > $DEST/src/$NAME/application/mappers/$NAME.mapper.ts
 import { ${CLASS_NAME}Entity } from '../../domain/entities/${NAME}.entity'
 
 import { Create${CLASS_NAME}Dto } from '../dtos/create-${NAME}.dto'
 import { Update${CLASS_NAME}Dto } from '../dtos/update-${NAME}.dto'
 
-// ! Actualizar el nombre del paquete
+// TODO: Cambiar por tus propias importaciones de proto
 import {
   Create${CLASS_NAME}Dto as ProtoCreate${CLASS_NAME}Dto,
   Update${CLASS_NAME}Dto as ProtoUpdate${CLASS_NAME}Dto,
@@ -305,8 +304,8 @@ export class ${CLASS_NAME}Mapper {
 
   protoToUpdateDto(protoDto: ProtoUpdate${CLASS_NAME}Dto): Update${CLASS_NAME}Dto {
     return {
-      name: protoDto.${NAME}?.name || undefined,
-      description: protoDto.${NAME}?.description || undefined
+      name: protoDto.${CAMEL_CASE_NAME}?.name || undefined,
+      description: protoDto.${CAMEL_CASE_NAME}?.description || undefined
     }
   }
 
@@ -323,7 +322,7 @@ export class ${CLASS_NAME}Mapper {
 EOF
 
 # * src/${NAME}/application/services/${NAME}-application.service.ts
-cat <<EOF > "$DEST/src/$NAME/application/services/${NAME}-application.service.ts"
+cat <<EOF > $DEST/src/$NAME/application/services/$NAME-application.service.ts
 import { Inject, Injectable, NotFoundException } from '@nestjs/common'
 import { Create${CLASS_NAME}Dto } from '../dtos/create-${NAME}.dto'
 import { ${CLASS_NAME}Entity } from '../../domain/entities/${NAME}.entity'
@@ -336,8 +335,8 @@ export class ${CLASS_NAME}ApplicationService {
   ) {}
 
   async create(dto: Create${CLASS_NAME}Dto): Promise<${CLASS_NAME}Entity> {
-    const ${NAME} = ${CLASS_NAME}Entity.create(dto)
-    return this.repository.save(${NAME})
+    const ${CAMEL_CASE_NAME} = ${CLASS_NAME}Entity.create(dto)
+    return this.repository.save(${CAMEL_CASE_NAME})
   }
 
   async findOne(id: string): Promise<${CLASS_NAME}Entity> {
@@ -473,8 +472,8 @@ export class ${CLASS_NAME}Entity {
 EOF
 
 # * src/${NAME}/domain/repositories/${NAME}.repository.ts
-cat <<EOF > $DEST/src/$NAME/domain/repositories/${NAME}.repository.ts
-import { ${CLASS_NAME}}Entity } from '../entities/${NAME}.entity'
+cat <<EOF > $DEST/src/$NAME/domain/repositories/$NAME.repository.ts
+import { ${CLASS_NAME}Entity } from '../entities/${NAME}.entity'
 export interface ${CLASS_NAME}Repository {
   save(entity: ${CLASS_NAME}Entity): Promise<${CLASS_NAME}Entity>
   findById(id: string): Promise<${CLASS_NAME}Entity | null>
@@ -561,7 +560,7 @@ export class ${CLASS_NAME}GrpcController implements ${CLASS_NAME}ServiceControll
     try {
       const entities = await this.applicationService.findAll()
       return {
-        ${NAME}s: entities.map((entity) =>
+        ${CAMEL_CASE_NAME}s: entities.map((entity) =>
           this.mapper.entityToProtoResponse(entity)
         )
       }
@@ -643,14 +642,13 @@ export class GrpcLoggingInterceptor implements NestInterceptor {
             )
           )
         )
-      )
   }
 }
 EOF
 
 
 # * src/${NAME}/infrastructure/modules/${NAME}.module.ts
-cat <<EOF > $DEST/src/$NAME/infrastructure/interceptors/grpc-logging.interceptor.ts
+cat <<EOF > $DEST/src/$NAME/infrastructure/modules/$NAME.module.ts
 import { Module } from '@nestjs/common'
 
 import { ${CLASS_NAME}GrpcController } from '../controllers/${NAME}.grpc.controller'
@@ -923,3 +921,7 @@ echo "✅ Microservicio '$NAME' generado con estructura y contenido base."
 # cat <<EOF > $DEST/src/$NAME/infrastructure/persistance/prisma/$NAME-prisma.repository.ts
 
 # EOF
+
+# Generar archivos de proto
+
+bash ./init-proto.sh $NAME $CLASS_NAME $INSTANCE_NAME $CAMEL_CASE_NAME 

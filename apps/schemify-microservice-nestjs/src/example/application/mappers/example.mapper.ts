@@ -9,7 +9,7 @@ import {
   CreateExampleDto as ProtoCreateExampleDto,
   UpdateExampleDto as ProtoUpdateExampleDto,
   Example as ProtoExample
-} from 'libs/proto/generated'
+} from '@app/proto'
 
 export class ExampleMapper {
   protoToCreateDto(protoDto: ProtoCreateExampleDto): CreateExampleDto {
