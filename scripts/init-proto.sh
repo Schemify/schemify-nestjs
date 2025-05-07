@@ -88,3 +88,26 @@ npx protoc \
   --ts_proto_opt=nestJs=true,outputServices=grpc-js,useOptionals=all \
   --proto_path=${DEST}/src \
   $DEST/src/services/$SNAKE_NAME/$SNAKE_NAME.proto
+
+# * libs/proto/src/services/$NAME/$INSTANCE_NAME.proto
+# Paths
+ROOT_INDEX="$DEST/generated/index.ts"
+SERVICES_INDEX="$DEST/generated/services/index.ts"
+SERVICE_FOLDER="$DEST/generated/services/$SNAKE_NAME"
+SERVICE_INDEX="$SERVICE_FOLDER/index.ts"
+SERVICE_EXPORT_LINE="export * from './$SNAKE_NAME';"
+
+# 1. ROOT: export * from './services';
+mkdir -p "$(dirname "$ROOT_INDEX")"
+touch "$ROOT_INDEX"
+grep -Fxq "export * from './services'" "$ROOT_INDEX" || echo "export * from './services'" >> "$ROOT_INDEX"
+
+# 2. SERVICES: export * from './usuarios_gestor';
+mkdir -p "$(dirname "$SERVICES_INDEX")"
+touch "$SERVICES_INDEX"
+grep -Fxq "$SERVICE_EXPORT_LINE" "$SERVICES_INDEX" || echo "$SERVICE_EXPORT_LINE" >> "$SERVICES_INDEX"
+
+# 3. SERVICIO: export * from './usuarios_gestor';
+mkdir -p "$SERVICE_FOLDER"
+touch "$SERVICE_INDEX"
+grep -Fxq "export * from './$SNAKE_NAME'" "$SERVICE_INDEX" || echo "export * from './$SNAKE_NAME'" >> "$SERVICE_INDEX"
