@@ -5,7 +5,7 @@ import { ExampleApplicationService } from '../../application/services/example-ap
 import { ExampleMapper } from '../../application/mappers/example.mapper'
 
 // import { ExampleRepository } from '../../domain/repositories/example.repository'
-import { PrismaExampleRepository } from '../persistence/prisma/example-prisma.repository.ts'
+import { PrismaExampleRepository } from '../persistence/prisma/example-prisma.repository'
 import { PrismaModule } from '../persistence/prisma/prisma.module'
 
 import { KafkaModule } from '../messaging/kafka/kafka.module'

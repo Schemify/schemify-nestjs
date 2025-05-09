@@ -22,9 +22,10 @@ echo "🔧 kebab-case (NAME): $NAME"
 echo "🏛️ PascalCase (CLASS_NAME): $CLASS_NAME"
 echo "🐍 camelCase (INSTANCE_NAME): $INSTANCE_NAME"
 
-# ─── Crear carpetas base ─────────────────────────────────────────────
+# ─── Crear carpetas base ──────────────────────────────────────────────────
 mkdir -p "$DEST/src/services/$SNAKE_NAME"
 
+# ? ─── $DEST/src/services/$NAME/$INSTANCE_NAME.proto ──────────────────────
 
 # * libs/proto/src/services/$NAME/$INSTANCE_NAME.proto
 cat <<EOF > $DEST/src/services/$SNAKE_NAME/$SNAKE_NAME.proto
@@ -35,10 +36,10 @@ package $SNAKE_NAME;
 // ───── Servicio CRUD ────────────────────────────────────────────
 service ${CLASS_NAME}Service {
   rpc Create${CLASS_NAME}(Create${CLASS_NAME}Dto) returns (${CLASS_NAME}) {}
-  rpc GetAll${CLASS_NAME}s(Empty) returns (${CLASS_NAME}s) {}
+  rpc GetAll${CLASS_NAME}s(${CLASS_NAME}Empty) returns (${CLASS_NAME}s) {}
   rpc Get${CLASS_NAME}ById(GetByIdDto) returns (${CLASS_NAME}) {}
   rpc Update${CLASS_NAME}(Update${CLASS_NAME}Dto) returns (${CLASS_NAME}) {}
-  rpc Delete${CLASS_NAME}(GetByIdDto) returns (Empty) {}
+  rpc Delete${CLASS_NAME}(GetByIdDto) returns (${CLASS_NAME}Empty) {}
 
   // opcional: paginación
   // rpc Query${CLASS_NAME}s(PaginationDto) returns (${CLASS_NAME}s) {}
@@ -46,7 +47,7 @@ service ${CLASS_NAME}Service {
 
 // ───── DTOs y Mensajes ─────────────────────────────────────────
 
-message Empty {}
+message ${CLASS_NAME}Empty {}
 
 message GetByIdDto {
   string id = 1;
@@ -81,7 +82,6 @@ message ${CLASS_NAME}s {
 }
 EOF
 
-
 npx protoc \
   --plugin=./node_modules/.bin/protoc-gen-ts_proto.cmd \
   --ts_proto_out=${DEST}/generated \
@@ -89,25 +89,36 @@ npx protoc \
   --proto_path=${DEST}/src \
   $DEST/src/services/$SNAKE_NAME/$SNAKE_NAME.proto
 
-# * libs/proto/src/services/$NAME/$INSTANCE_NAME.proto
 # Paths
 ROOT_INDEX="$DEST/generated/index.ts"
 SERVICES_INDEX="$DEST/generated/services/index.ts"
 SERVICE_FOLDER="$DEST/generated/services/$SNAKE_NAME"
 SERVICE_INDEX="$SERVICE_FOLDER/index.ts"
+
 SERVICE_EXPORT_LINE="export * from './$SNAKE_NAME';"
 
 # 1. ROOT: export * from './services';
 mkdir -p "$(dirname "$ROOT_INDEX")"
 touch "$ROOT_INDEX"
-grep -Fxq "export * from './services'" "$ROOT_INDEX" || echo "export * from './services'" >> "$ROOT_INDEX"
+grep -Fxq "export  from './services'" "$ROOT_INDEX" || echo "export * from './services'" >> "$ROOT_INDEX"
 
 # 2. SERVICES: export * from './usuarios_gestor';
 mkdir -p "$(dirname "$SERVICES_INDEX")"
 touch "$SERVICES_INDEX"
 grep -Fxq "$SERVICE_EXPORT_LINE" "$SERVICES_INDEX" || echo "$SERVICE_EXPORT_LINE" >> "$SERVICES_INDEX"
 
-# 3. SERVICIO: export * from './usuarios_gestor';
+# 3. SERVICIO: export con alias para evitar colisiones
 mkdir -p "$SERVICE_FOLDER"
 touch "$SERVICE_INDEX"
-grep -Fxq "export * from './$SNAKE_NAME'" "$SERVICE_INDEX" || echo "export * from './$SNAKE_NAME'" >> "$SERVICE_INDEX"
+
+# Solo añade si no está presente
+if ! grep -q "export {" "$SERVICE_INDEX"; then
+  echo "export {" >> "$SERVICE_INDEX"
+  echo "  Empty as ${CLASS_NAME}Empty," >> "$SERVICE_INDEX"
+  echo "  protobufPackage as ${CLASS_NAME}Package," >> "$SERVICE_INDEX"
+  echo "  ${CLASS_NAME}ServiceClient," >> "$SERVICE_INDEX"
+  echo "  ${CLASS_NAME}ServiceController," >> "$SERVICE_INDEX"
+  echo "  ${CLASS_NAME}ServiceControllerMethods," >> "$SERVICE_INDEX"
+  echo "  ${CLASS_NAME}_SERVICE_NAME," >> "$SERVICE_INDEX"
+  echo "} from './$SNAKE_NAME';" >> "$SERVICE_INDEX"
+fi

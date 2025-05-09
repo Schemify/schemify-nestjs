@@ -1,11 +1,9 @@
 import { Module } from '@nestjs/common'
 import { ClientsModule, Transport } from '@nestjs/microservices'
 import { KafkaProducerService } from './kafka-producer.service'
-import { ExampleCreatedConsumer } from './consumers/example-created.consumer'
+import { UsuariosGestorCreatedConsumer } from './consumers/usuarios-gestor-created.consumer'
 
 import { kafkaCommonConfig } from '../../config/kafka.config'
-
-import { ExampleCreatedUseCase } from '../../../application/use-cases/create-example.use-case'
 
 @Module({
   imports: [
@@ -22,8 +20,8 @@ import { ExampleCreatedUseCase } from '../../../application/use-cases/create-exa
       }
     ])
   ],
-  controllers: [ExampleCreatedConsumer],
-  providers: [KafkaProducerService, ExampleCreatedUseCase],
+  controllers: [UsuariosGestorCreatedConsumer],
+  providers: [KafkaProducerService],
   exports: [KafkaProducerService]
 })
 export class KafkaModule {}

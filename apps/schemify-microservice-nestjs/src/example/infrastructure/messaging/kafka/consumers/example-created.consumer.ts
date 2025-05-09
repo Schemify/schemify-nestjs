@@ -1,21 +1,20 @@
 /* eslint-disable @darraghor/nestjs-typed/controllers-should-supply-api-tags */
-import { Controller } from '@nestjs/common'
+import { Controller, Inject } from '@nestjs/common'
 import { MessagePattern, Payload } from '@nestjs/microservices'
-import { Example } from '@app/proto'
+import { ExampleCreatedEvent } from '../../../../domain/events/example-created.event'
+import { ExampleCreatedUseCase } from '../../../../application/use-cases/create-example.use-case'
 
 @Controller()
 export class ExampleCreatedConsumer {
+  constructor(
+    @Inject(ExampleCreatedUseCase)
+    private readonly exampleUseCase: ExampleCreatedUseCase
+  ) {}
+
   @MessagePattern('example-created')
-  handleExampleCreated(@Payload() message: Example) {
+  handleExampleCreated(@Payload() message: ExampleCreatedEvent) {
     try {
-      console.log('📥 Evento recibido desde Kafka:')
-      console.log('📝 Mensaje tipado:', message)
-
-      const sizeInBytes = Buffer.byteLength(JSON.stringify(message), 'utf8')
-      console.log(`📦 Tamaño estimado: ${sizeInBytes} bytes`)
-
-      // 🔄 Aquí podrías disparar un caso de uso:
-      // this.exampleUseCase.handle(data)
+      this.exampleUseCase.processEvent(message)
     } catch (error) {
       console.error('❌ Error al procesar mensaje Kafka:', error)
     }

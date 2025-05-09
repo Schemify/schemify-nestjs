@@ -29,7 +29,6 @@ echo "📂 Directorio destino: $DEST"
 echo "🏛️  Clase base: $CLASS_NAME"
 echo "🐍 Instancia: $INSTANCE_NAME"
 
-
 # ─── Crear carpetas base ─────────────────────────────────────────────
 mkdir -p $DEST/{docs,prisma/migrations,src/$NAME/{application/{dtos,mappers,services,use-cases},domain/{entities,events,repositories,value-objects},infrastructure/{config,controllers,exceptions,interceptors,messaging/kafka/consumers,modules,persistence/{mongodb,prisma}}},test}
 
@@ -925,3 +924,5 @@ echo "✅ Microservicio '$NAME' generado con estructura y contenido base."
 # Generar archivos de proto
 
 bash ./init-proto.sh $NAME $CLASS_NAME $INSTANCE_NAME $CAMEL_CASE_NAME 
+
+npm run format

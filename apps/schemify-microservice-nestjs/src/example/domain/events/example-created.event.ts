@@ -1,11 +1,15 @@
-import { ExampleEntity } from '../entities/example.entity'
+import { DescriptionValueObject } from '../value-objects/description.value-object'
 
 export class ExampleCreatedEvent {
   public readonly occurredAt: Date
-  public readonly example: ExampleEntity
+  public readonly id: string
+  public readonly name: string
+  public readonly description: DescriptionValueObject | null
 
-  constructor(example: ExampleEntity) {
+  constructor(example: ExampleCreatedEvent) {
     this.occurredAt = new Date()
-    this.example = example
+    this.id = example.id
+    this.name = example.name
+    this.description = example.description ?? null
   }
 }

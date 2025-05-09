@@ -1,0 +1,51 @@
+syntax = "proto3";
+
+package usuarios_gestor;
+
+// ───── Servicio CRUD ────────────────────────────────────────────
+service UsuariosGestorService {
+  rpc CreateUsuariosGestor(CreateUsuariosGestorDto) returns (UsuariosGestor) {}
+  rpc GetAllUsuariosGestors(UsuariosGestorEmpty) returns (UsuariosGestors) {}
+  rpc GetUsuariosGestorById(GetByIdDto) returns (UsuariosGestor) {}
+  rpc UpdateUsuariosGestor(UpdateUsuariosGestorDto) returns (UsuariosGestor) {}
+  rpc DeleteUsuariosGestor(GetByIdDto) returns (UsuariosGestorEmpty) {}
+
+  // opcional: paginación
+  // rpc QueryUsuariosGestors(PaginationDto) returns (UsuariosGestors) {}
+}
+
+// ───── DTOs y Mensajes ─────────────────────────────────────────
+
+message UsuariosGestorEmpty {}
+
+message GetByIdDto {
+  string id = 1;
+}
+
+message CreateUsuariosGestorDto {
+  string name = 1;
+  optional string description = 2;
+  // agregar más campos si es necesario
+}
+
+message UpdateUsuariosGestorDto {
+  string id = 1;
+  UpdateUsuariosGestorData data = 2;
+}
+
+message UpdateUsuariosGestorData {
+  string name = 1;
+  optional string description = 2;
+  // más campos opcionales
+}
+
+message UsuariosGestor {
+  string id = 1;
+  string name = 2;
+  optional string description = 3;
+  // campos adicionales si aplica
+}
+
+message UsuariosGestors {
+  repeated UsuariosGestor items = 1;
+}
